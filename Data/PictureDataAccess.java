@@ -15,7 +15,7 @@ public class PictureDataAccess implements PictureDataAccessInterface {
 
             try {
                 System.out.println(e.getMessage());
-                image = ImageIO.read(new File("MedieData/Pictures/default.jpg"));
+                image = ImageIO.read(new File("MedieData/pictures/default.jpg"));
             } catch (IOException ex) {
                 System.out.println(e.getMessage());
                 return null; // really shouldnt ever happen but java autism freaks out if we dont do this since ImageIO.read throws an exception
