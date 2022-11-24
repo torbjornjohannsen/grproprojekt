@@ -1,5 +1,7 @@
+package Domain;
 import java.util.List;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public abstract class Media {
     int id;
@@ -7,15 +9,15 @@ public abstract class Media {
     int year;
     List<String> genre;
     double rating;
-    BufferedImage picture;
+    BufferedImage image;
 
-    Media (int id, String title, int year, List<String> genre, double rating) {
+    Media (int id, String title, int year, List<String> genre, double rating, BufferedImage image) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.genre = genre;
         this.rating = rating;
-        //this.picture = getImage...
+        this.image = image;
     }
 
     public int getId() {return id;}
@@ -26,3 +28,4 @@ public abstract class Media {
     public BufferedImage getPicture() {return picture;}
 
 }
+
