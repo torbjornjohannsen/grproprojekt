@@ -16,7 +16,7 @@ public class State implements StateInterface {
     }
 
     public BufferedImage getMediaPicture(int id) {
-        
+        return null; 
     }
 
 }

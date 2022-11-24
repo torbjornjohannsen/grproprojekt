@@ -25,7 +25,7 @@ public abstract class Media {
     public int getYear() {return year;}
     public List<String> getGenre() {return genre;}
     public double getRating() {return rating;}
-    public BufferedImage getPicture() {return picture;}
+    public BufferedImage getPicture() {return image;}
 
 }
 
