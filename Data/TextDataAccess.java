@@ -7,14 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TextDataAccess implements Data.TextDataAccessInterface {
-    
-    public static void main(String[] args) {
-        TextDataAccess tda = new TextDataAccess();
-        List<String> hey = tda.load("serier");
-        for(String element : hey) {
-            System.out.println(element);
-        }
-    }
 
     public List<String> load(String path) {
         List<String> dataSepereatedIntoStrings = new ArrayList<String>();
@@ -30,7 +22,7 @@ public class TextDataAccess implements Data.TextDataAccessInterface {
             sc.close();
 
         } catch(FileNotFoundException fnfe) {
-            System.out.println("File not found");
+            System.out.println(fnfe.getMessage());
         }
 
         return dataSepereatedIntoStrings;
