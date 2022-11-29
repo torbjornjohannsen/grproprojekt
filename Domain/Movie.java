@@ -10,7 +10,7 @@ import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Movie extends Media implements Displayable {
+public class Movie extends Media{
     public Movie(int id, String title, String year, List<String> genre, double rating, BufferedImage image) {
         super(id, title, year, genre, rating, image);
     }

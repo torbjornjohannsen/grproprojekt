@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 import java.awt.image.*;
 
-public class Series extends Media implements Displayable{
+public class Series extends Media{
     Map<Integer, Integer> seasons;
 
     
