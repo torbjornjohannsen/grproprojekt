@@ -72,6 +72,10 @@ public class State implements StateInterface {
     }
 
     public BufferedImage getMediaPicture(int id) {
+        return medias.get(id).getPicture(); 
+    }
+
+    public List<Displayable> getDisplayables() {
         return null; 
     }
 
