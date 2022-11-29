@@ -1,5 +1,9 @@
 package Domain;
 import java.util.List;
+
+import javax.swing.JPanel;
+import java.awt.Color;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -26,6 +30,13 @@ public abstract class Media {
     public List<String> getGenre() {return genre;}
     public double getRating() {return rating;}
     public BufferedImage getPicture() {return image;}
+
+    public JPanel display() {
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.GRAY);
+
+        return panel;
+    }
 
 }
 
