@@ -1,7 +1,11 @@
 import Data.PictureDataAccess;
 import Data.PictureDataAccessInterface;
+import Data.TextDataAccess;
+import Data.TextDataAccessInterface;
+
 import java.io.File;
 import java.awt.image.*;
+import java.util.*;
 
 public class Test {
     public static void main(String[] args) {
@@ -11,7 +15,11 @@ public class Test {
 
     // Temporary tests, need to do it with JUnit properly later but just for now this works fine
     private static void TestTextDataAccess() {
-        System.out.println("Not implemented");
+        TextDataAccessInterface loader = new TextDataAccess(); 
+
+        List<String> res = loader.load("film"); 
+
+        System.out.println("Film list size: " + res.size());
     }
 
     private static void TestPictureDataAccess() {
