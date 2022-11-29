@@ -14,7 +14,7 @@ public class GUI {
         frame.setJMenuBar(makeJMenuBar());
 
         //***TEST***
-        Media tis = new Movie(1, "Dj", 2002, null, 1.1, null);
+        Media tis = new Movie(1, "Dj", "2002", null, 1.1, null);
         frame.add(tis.display());
         frame.validate();
     } 
