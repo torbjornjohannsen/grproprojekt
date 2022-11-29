@@ -6,12 +6,12 @@ import java.io.File;
 public abstract class Media {
     int id;
     String title;
-    int year;
+    String year; // since series have ranges of years, can be 1990-1991 or 2011- for instance, all we do is print them so string is fine
     List<String> genre;
     double rating;
     BufferedImage image;
 
-    Media (int id, String title, int year, List<String> genre, double rating, BufferedImage image) {
+    Media (int id, String title, String year, List<String> genre, double rating, BufferedImage image) {
         this.id = id;
         this.title = title;
         this.year = year;
@@ -22,7 +22,7 @@ public abstract class Media {
 
     public int getId() {return id;}
     public String getTitle() {return title;}
-    public int getYear() {return year;}
+    public String getYear() {return year;}
     public List<String> getGenre() {return genre;}
     public double getRating() {return rating;}
     public BufferedImage getPicture() {return image;}

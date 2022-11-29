@@ -24,7 +24,6 @@ public class PictureDataAccess implements PictureDataAccessInterface {
             }
 
         }
-        System.out.println("gucci");
         return image;
 
     }
