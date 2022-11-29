@@ -1,7 +1,5 @@
-import Data.PictureDataAccess;
-import Data.PictureDataAccessInterface;
-import Data.TextDataAccess;
-import Data.TextDataAccessInterface;
+import Domain.*;
+import Data.*; 
 
 import java.io.File;
 import java.awt.image.*;
@@ -11,6 +9,7 @@ public class Test {
     public static void main(String[] args) {
         TestPictureDataAccess(); 
         TestTextDataAccess(); 
+        TestState();
     }
 
     // Temporary tests, need to do it with JUnit properly later but just for now this works fine
@@ -32,6 +31,23 @@ public class Test {
 
         System.out.println("Valid image dimensions: " + validImage.getWidth() + ", " + validImage.getHeight());
         System.out.println("Invalid image dimensions: " + invalidImage.getWidth() + ", " + invalidImage.getHeight());
+
+    }
+
+    private static void TestState() {
+        TextDataAccessInterface loader = new TextDataAccess(); 
+        List<String> res = loader.load("film"); 
+        List<String> res2 = loader.load("serier");
+
+        StateInterface state = new Domain.State(); 
+
+        state.init(res); 
+        state.init(res2); 
+
+        for(int i = 0; i < 200; i++) {
+            System.out.println(i + " " + state.getMediaInformation(i));
+        }
+
 
     }
 }
