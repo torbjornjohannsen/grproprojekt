@@ -75,8 +75,9 @@ public class State implements StateInterface {
         return medias.get(id).getPicture(); 
     }
 
-    public List<Displayable> getDisplayables() {
-        return null; 
+    public List<? extends Displayable> getDisplayables() {
+        List<? extends Displayable> displayList = medias; 
+        return displayList; 
     }
 
     public List<Media> getGenreList(String genre) {
