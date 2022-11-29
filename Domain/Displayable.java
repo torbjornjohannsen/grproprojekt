@@ -1,7 +1,9 @@
 package Domain;
 
+import javax.swing.JPanel;
+
 public interface Displayable {
     
-    void display();
+    JPanel display();
 
 }
