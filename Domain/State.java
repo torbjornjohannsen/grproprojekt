@@ -24,7 +24,8 @@ public class State implements StateInterface {
         movies = new ArrayList<>(); 
         medias = new ArrayList<>(); 
         users = new ArrayList<>(); 
-        curUserID = -1; 
+        curUserID = 0; 
+        users.add(new User("Test mcDefault", 69, "Attack Helicopter"));
 
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
     }
@@ -92,7 +93,16 @@ public class State implements StateInterface {
     }
 
     public void AddFavorite(int movieID) {
+        users.get(curUserID).AddFavorite(movieID);
+    }
 
+    public void AddFavorite(int movieID, int userID) {
+        try {
+            users.get(userID).AddFavorite(movieID);
+        } catch (IndexOutOfBoundsException e) {
+            
+            System.out.println("Tried to add a favorite for an invalid user");
+        }
     }
 
     private Boolean InitMediaType(List<String> media, PictureDataAccessInterface pLoader) {

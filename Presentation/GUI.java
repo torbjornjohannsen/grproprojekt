@@ -119,4 +119,22 @@ public class GUI {
         return  scrPane;
     }
 
+    private static JScrollPane makeSearchView() {
+
+        List<? extends Displayable> allMatches = null;
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(12, 9));
+        JScrollPane scrPane = new JScrollPane(panel);
+        
+        for(Displayable element : allMatches) {
+            
+            panel.add(element.display());
+            
+        }
+
+        currentView = scrPane;
+        return  scrPane;
+    }
+
 }
