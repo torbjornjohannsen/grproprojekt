@@ -12,4 +12,6 @@ public interface StateInterface {
     public BufferedImage getMediaPicture(int id);
     public List<String> getGenreList(String genre);   
     public List<Media> search(String input);   
+    public Boolean SetCurUser(int userID); 
+    public void AddFavorite(int movieID); 
 }
