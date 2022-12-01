@@ -62,7 +62,7 @@ public class State implements StateInterface {
         return displayList; 
     }
 
-    public List<Media> getGenreList(String genre) {
+    public List<String> getGenreList(String genre) {
         return null; 
     }  
 

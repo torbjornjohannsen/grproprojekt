@@ -7,7 +7,9 @@ public interface StateInterface {
     public Boolean init();
     public String getMediaInformation(int id);
     public List<? extends Displayable> getDisplayables(); 
+    public List<? extends Displayable> getMovieDisplayables(); 
+    public List<? extends Displayable> getSeriesDisplayables(); 
     public BufferedImage getMediaPicture(int id);
-    public List<Media> getGenreList(String genre);   
+    public List<String> getGenreList(String genre);   
     public List<Media> search(String input);   
 }
