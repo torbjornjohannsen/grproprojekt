@@ -1,7 +1,6 @@
 package Domain;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class User {
     protected String name;
@@ -15,7 +14,7 @@ public class User {
         this.age = age;
         this.gender = gender;
         this.watchHistory = new ArrayList<>();
-        this.favoriteList = new ArrayList<>();
+        this.favoriteList = new LinkedList<>(); // since deletion & insertion are frequent
     }
 
     public String getName() { return name; }

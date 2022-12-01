@@ -14,6 +14,8 @@ public class State implements StateInterface {
     protected List<Series> series;
     protected List<Movie> movies;
     protected List<Media> medias; 
+    protected List<User> users; 
+    protected int curUserID; 
     private NumberFormat numFormat; 
 
     public State() 
@@ -21,6 +23,8 @@ public class State implements StateInterface {
         series = new ArrayList<>(); 
         movies = new ArrayList<>(); 
         medias = new ArrayList<>(); 
+        users = new ArrayList<>(); 
+        curUserID = -1; 
 
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
     }
@@ -29,11 +33,8 @@ public class State implements StateInterface {
         TextDataAccessInterface tLoader = new TextDataAccess(); 
         PictureDataAccessInterface pLoader = new PictureDataAccess(); 
 
-        List<String> movies = tLoader.load("film");
-        List<String> series = tLoader.load("serier");
-
-        Boolean moviesRes = Initialize(movies, pLoader);
-        Boolean seriesRes = Initialize(series, pLoader);
+        Boolean moviesRes = InitMediaType(tLoader.load("film"), pLoader);
+        Boolean seriesRes = InitMediaType(tLoader.load("serier"), pLoader);
 
         return moviesRes && seriesRes;
     }
@@ -51,6 +52,16 @@ public class State implements StateInterface {
         return displayList; 
     }
 
+    public List<? extends Displayable> getMovieDisplayables() {
+        List<? extends Displayable> displayList = movies; 
+        return displayList; 
+    }
+
+    public List<? extends Displayable> getSeriesDisplayables() {
+        List<? extends Displayable> displayList = series; 
+        return displayList; 
+    }
+
     public List<Media> getGenreList(String genre) {
         return null; 
     }  
@@ -59,7 +70,26 @@ public class State implements StateInterface {
         return null; 
     } 
 
-    private Boolean Initialize(List<String> media, PictureDataAccessInterface pLoader) {
+    public void AddUser(String name, int age, String gender) {
+        users.add(new User(name, age, gender));
+    }
+
+    public Boolean SetCurUser(int userID) {
+        try {
+            users.get(userID); 
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Tried to set an invalid userID");
+            return false; 
+        }
+        curUserID = userID;
+        return true; 
+    }
+
+    public void AddFavorite(int movieID) {
+
+    }
+
+    private Boolean InitMediaType(List<String> media, PictureDataAccessInterface pLoader) {
         for (String s : media) {
             s = s.trim(); 
             String[] fields = s.split(";"); 
