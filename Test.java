@@ -39,9 +39,11 @@ public class Test {
 
         state.init();
 
+
         for(int i = 0; i < 200; i++) {
             System.out.println(i + " " + state.getMediaInformation(i));
         }
+
 
         // expected to work fine
         state.AddFavorite(5);
