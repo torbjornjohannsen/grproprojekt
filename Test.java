@@ -39,6 +39,9 @@ public class Test {
 
         state.init();
 
+        List<? extends Displayable> lisss = state.getDisplayables();
+
+        System.out.println("size: " + lisss.size());
 
         for(int i = 0; i < 200; i++) {
             System.out.println(i + " " + state.getMediaInformation(i));
