@@ -21,8 +21,7 @@ public class GUI {
         frame.setLayout(new GridLayout());
 
         State state = new State(); 
-        TextDataAccess tda = new TextDataAccess();
-        state.init(tda.load("film"));
+        state.init();
         List<? extends Displayable> allDisplayables = state.getDisplayables();
         System.out.println(allDisplayables.size());
 
