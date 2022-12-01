@@ -54,13 +54,16 @@ public class GUI {
         JButton moviesButton = new JButton("Film");
         moviesButton.addActionListener(e -> {
             frame.remove(currentView);
-            JLabel label = new JLabel("Hey");
-            currentView = label;
-            frame.add(label);
+            frame.add(makeMovieView());
             frame.validate();
         });
 
         JButton seriesButton = new JButton("Serier");
+        seriesButton.addActionListener(e -> {
+            frame.remove(currentView);
+            frame.add(makeSeriesView());
+            frame.validate();
+        });
         homeButton.setPreferredSize(new Dimension(200,50));
 
         JTextField searchBar = new JTextField(20);
@@ -90,14 +93,14 @@ public class GUI {
     private static JScrollPane makeHomeView() {
         State state = new State();
         state.init();
-        List<? extends Displayable> allMovies = state.getDisplayables();
+        List<? extends Displayable> allDisplayables = state.getDisplayables();
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(12, 9));
+        panel.setLayout(new GridLayout(allDisplayables.size() / 9, 8));
         JScrollPane scrPane = new JScrollPane(panel);
         
-        for(Displayable movie : allMovies) {
-            panel.add(movie.display());
+        for(Displayable element : allDisplayables) {
+            panel.add(element.display());
         }
         
         currentView = scrPane;
@@ -107,14 +110,32 @@ public class GUI {
     private static JScrollPane makeMovieView() {
         State state = new State(); 
         state.init();
-        List<? extends Displayable> allDisplayables = state.getDisplayables();
-        System.out.println(allDisplayables.size());
+        List<? extends Displayable> allDisplayables = state.getMovieDisplayables();
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(12, 9));
         JScrollPane scrPane = new JScrollPane(panel);
         
         for(Displayable element : allDisplayables) {
+            
+            panel.add(element.display());
+            
+        }
+
+        currentView = scrPane;
+        return  scrPane;
+    }
+
+    private static JScrollPane makeSeriesView() {
+        State state = new State(); 
+        state.init();
+        List<? extends Displayable> sereDisplayables = state.getSeriesDisplayables();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(12, 9));
+        JScrollPane scrPane = new JScrollPane(panel);
+        
+        for(Displayable element : sereDisplayables) {
             
             panel.add(element.display());
             
