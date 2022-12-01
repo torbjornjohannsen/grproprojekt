@@ -74,6 +74,9 @@ public class GUI {
 
             state.search(searchBar.getText());
             
+            frame.remove(currentView);
+            frame.add(makeSearchView());
+            frame.validate();
                 
         });
 
