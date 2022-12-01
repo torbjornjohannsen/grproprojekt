@@ -95,6 +95,13 @@ public class State implements StateInterface {
         users.get(curUserID).AddFavorite(movieID);
     }
 
+    public void AddFavorite(int movieID, int userID) {
+        try {
+            users.get(userID).AddFavorite(movieID);
+        } catch (IndexOutOfBoundsException e) {
+
+            System.out.println("Tried to add a favorite for an invalid user");
+        }
     }
 
     private Boolean InitMediaType(List<String> media, PictureDataAccessInterface pLoader) {
