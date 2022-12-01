@@ -14,4 +14,5 @@ public interface StateInterface {
     public List<Media> search(String input);   
     public Boolean SetCurUser(int userID); 
     public void AddFavorite(int movieID); 
+    public void AddFavorite(int movieID, int userID); 
 }

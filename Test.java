@@ -43,6 +43,12 @@ public class Test {
             System.out.println(i + " " + state.getMediaInformation(i));
         }
 
+        // expected to work fine
+        state.AddFavorite(5);
+        state.AddFavorite(69, 0);
+
+        // expected to fail
+        state.AddFavorite(2, -5);
 
     }
 }
