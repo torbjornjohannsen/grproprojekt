@@ -67,6 +67,11 @@ public class State implements StateInterface {
     }  
 
     public List<Media> search(String input) {
+        for(Media media : medias) {
+            if(media.title.toLowerCase().contains(input.toLowerCase())) {
+                System.out.println(media.title);
+            }
+        }
         return null; 
     } 
 

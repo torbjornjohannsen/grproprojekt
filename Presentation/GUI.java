@@ -41,7 +41,7 @@ public class GUI {
 
     private static JPanel makeMenuBar() {
         JPanel menuBar = new JPanel();
-        menuBar.setLayout(new GridLayout(1, 3));
+        menuBar.setLayout(new GridLayout(1, 5));
         menuBar.setSize(10, 10);
 
         JButton homeButton = new JButton("Hjem");
@@ -63,9 +63,26 @@ public class GUI {
         JButton seriesButton = new JButton("Serier");
         homeButton.setPreferredSize(new Dimension(200,50));
 
+        JTextField searchBar = new JTextField(20);
+
+        JButton searchButton = new JButton("Søg");
+        searchButton.addActionListener(e -> {
+
+            //needs to be retrieved from main method
+            State state = new State();
+            state.init();
+
+            state.search(searchBar.getText());
+            
+                
+        });
+
+
         menuBar.add(homeButton);
         menuBar.add(moviesButton);
         menuBar.add(seriesButton);
+        menuBar.add(searchBar);
+        menuBar.add(searchButton);
 
         return menuBar;
     }
