@@ -50,7 +50,7 @@ public class State implements StateInterface {
                 Movie m = new Movie(medias.size(), fields[0], fields[1], genres, whyyyy, image);
                 movies.add(m); 
                 medias.add(m);
-            } else { // its a series
+            } else { // its a series //TODO make this an if statement and make the else throw an error
                 String[] seasonsArr = fields[4].split(","); 
                 Map<Integer, Integer> seasonMap = new HashMap<>(); 
                 for(String season : seasonsArr)
