@@ -105,6 +105,7 @@ public class State implements StateInterface {
     }
 
     private Boolean InitMediaType(List<String> media, PictureDataAccessInterface pLoader) {
+
         for (String s : media) {
             s = s.trim(); 
             String[] fields = s.split(";"); 
