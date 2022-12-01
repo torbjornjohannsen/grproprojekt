@@ -67,12 +67,13 @@ public class State implements StateInterface {
     }  
 
     public List<Media> search(String input) {
+        ArrayList<Media> results = new ArrayList<>();
         for(Media media : medias) {
             if(media.title.toLowerCase().contains(input.toLowerCase())) {
-                System.out.println(media.title);
+                results.add(media);
             }
         }
-        return null; 
+        return results; 
     } 
 
     public void AddUser(String name, int age, String gender) {
