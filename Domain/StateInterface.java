@@ -11,7 +11,7 @@ public interface StateInterface {
     public List<? extends Displayable> getSeriesDisplayables(); 
     public BufferedImage getMediaPicture(int id);
     public List<String> getGenreList(String genre);   
-    public List<Media> search(String input);   
+    public List<? extends Displayable> search(String input);   
     public Boolean SetCurUser(int userID); 
     public void AddFavorite(int movieID); 
     public void AddFavorite(int movieID, int userID); 

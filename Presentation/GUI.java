@@ -30,7 +30,7 @@ public class GUI {
 
         frame.add(makeMenuBar(), BorderLayout.PAGE_START);
         frame.validate();
-    } 
+    }
 
     private static JFrame makeMainFrame() {
         JFrame frame = new JFrame("NutFlix");
@@ -67,13 +67,16 @@ public class GUI {
 
         JButton searchButton = new JButton("Søg");
         searchButton.addActionListener(e -> {
+            //needs to be retrieved from main method
+            State state = new State();
+            state.init();
+            state.search(searchBar.getText());
             
             frame.remove(currentView);
             frame.add(makeSearchView(searchBar.getText()));
             frame.validate();
                 
         });
-
 
         menuBar.add(homeButton);
         menuBar.add(moviesButton);
