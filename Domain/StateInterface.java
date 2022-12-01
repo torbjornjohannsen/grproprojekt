@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public interface StateInterface {
-    public Boolean init(List<String> media);
+    public Boolean init();
     public String getMediaInformation(int id);
     public List<? extends Displayable> getDisplayables(); 
     public BufferedImage getMediaPicture(int id);

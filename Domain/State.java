@@ -6,12 +6,16 @@ import java.util.*;
 
 import Data.PictureDataAccess;
 import Data.PictureDataAccessInterface;
+import Data.TextDataAccess;
+import Data.TextDataAccessInterface;
 
 
 public class State implements StateInterface {
     protected List<Series> series;
     protected List<Movie> movies;
     protected List<Media> medias; 
+    protected List<User> users; 
+    protected int curUserID; 
     private NumberFormat numFormat; 
 
     public State() 
@@ -19,15 +23,77 @@ public class State implements StateInterface {
         series = new ArrayList<>(); 
         movies = new ArrayList<>(); 
         medias = new ArrayList<>(); 
+        users = new ArrayList<>(); 
+        curUserID = -1; 
 
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
     }
 
-    public Boolean init(List<String> media) {
+    public Boolean init() {
+        TextDataAccessInterface tLoader = new TextDataAccess(); 
         PictureDataAccessInterface pLoader = new PictureDataAccess(); 
+
+        Boolean moviesRes = InitMediaType(tLoader.load("film"), pLoader);
+        Boolean seriesRes = InitMediaType(tLoader.load("serier"), pLoader);
+
+        return moviesRes && seriesRes;
+    }
+
+    public String getMediaInformation(int id) {
+        return medias.get(id).getTitle();
+    }
+
+    public BufferedImage getMediaPicture(int id) {
+        return medias.get(id).getPicture(); 
+    }
+
+    public List<? extends Displayable> getDisplayables() {
+        List<? extends Displayable> displayList = medias; 
+        return displayList; 
+    }
+
+    public List<? extends Displayable> getMovieDisplayables() {
+        List<? extends Displayable> displayList = movies; 
+        return displayList; 
+    }
+
+    public List<? extends Displayable> getSeriesDisplayables() {
+        List<? extends Displayable> displayList = series; 
+        return displayList; 
+    }
+
+    public List<Media> getGenreList(String genre) {
+        return null; 
+    }  
+
+    public List<Media> search(String input) {
+        return null; 
+    } 
+
+    public void AddUser(String name, int age, String gender) {
+        users.add(new User(name, age, gender));
+    }
+
+    public Boolean SetCurUser(int userID) {
+        try {
+            users.get(userID); 
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Tried to set an invalid userID");
+            return false; 
+        }
+        curUserID = userID;
+        return true; 
+    }
+
+    public void AddFavorite(int movieID) {
+
+    }
+
+    private Boolean InitMediaType(List<String> media, PictureDataAccessInterface pLoader) {
         for (String s : media) {
             s = s.trim(); 
             String[] fields = s.split(";"); 
+
             if(fields.length < 4 || fields.length > 5) { throw new IllegalArgumentException("Invalid lines in media: " + s); }
 
             BufferedImage image = pLoader.Load(fields[0]); 
@@ -63,29 +129,7 @@ public class State implements StateInterface {
                 medias.add(serie); 
             }
         }
-
-        return true;
+        return true; 
     }
-
-    public String getMediaInformation(int id) {
-        return medias.get(id).getTitle();
-    }
-
-    public BufferedImage getMediaPicture(int id) {
-        return medias.get(id).getPicture(); 
-    }
-
-    public List<? extends Displayable> getDisplayables() {
-        List<? extends Displayable> displayList = medias; 
-        return displayList; 
-    }
-
-    public List<Media> getGenreList(String genre) {
-        return null; 
-    }  
-
-    public List<Media> search(String input) {
-        return null; 
-    } 
 
 }

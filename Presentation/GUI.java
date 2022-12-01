@@ -71,13 +71,9 @@ public class GUI {
     }
 
     private static JScrollPane makeHomeView() {
-        State stateMovie = new State(); 
-        State stateSerie = new State();
-        TextDataAccess tda = new TextDataAccess();
-        stateMovie.init(tda.load("film"));
-        stateSerie.init(tda.load("serier"));
-        List<? extends Displayable> allMovies = stateMovie.getDisplayables();
-        List<? extends Displayable> allSeries = stateSerie.getDisplayables();
+        State state = new State();
+        state.init();
+        List<? extends Displayable> allMovies = state.getDisplayables();
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(12, 9));
@@ -93,8 +89,7 @@ public class GUI {
 
     private static JScrollPane makeMovieView() {
         State state = new State(); 
-        TextDataAccess tda = new TextDataAccess();
-        state.init(tda.load("film"));
+        state.init();
         List<? extends Displayable> allDisplayables = state.getDisplayables();
         System.out.println(allDisplayables.size());
 
