@@ -71,6 +71,11 @@ public class GUI {
             State state = new State();
             state.init();
             state.search(searchBar.getText());
+            
+            frame.remove(currentView);
+            frame.add(makeSearchView(searchBar.getText()));
+            frame.validate();
+                
         });
 
         menuBar.add(homeButton);
@@ -119,9 +124,11 @@ public class GUI {
         return  scrPane;
     }
 
-    private static JScrollPane makeSearchView() {
+    private static JScrollPane makeSearchView(String seachString) {
+        State state = new State();
+        state.init();
 
-        List<? extends Displayable> allMatches = null;
+        List<? extends Displayable> allMatches = state.search(seachString);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(12, 9));
