@@ -35,14 +35,9 @@ public class Test {
     }
 
     private static void TestState() {
-        TextDataAccessInterface loader = new TextDataAccess(); 
-        List<String> res = loader.load("film"); 
-        List<String> res2 = loader.load("serier");
-
         StateInterface state = new Domain.State(); 
 
-        state.init(res); 
-        state.init(res2); 
+        state.init();
 
         for(int i = 0; i < 200; i++) {
             System.out.println(i + " " + state.getMediaInformation(i));

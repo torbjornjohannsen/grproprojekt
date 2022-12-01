@@ -6,6 +6,8 @@ import java.util.*;
 
 import Data.PictureDataAccess;
 import Data.PictureDataAccessInterface;
+import Data.TextDataAccess;
+import Data.TextDataAccessInterface;
 
 
 public class State implements StateInterface {
@@ -23,11 +25,45 @@ public class State implements StateInterface {
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
     }
 
-    public Boolean init(List<String> media) {
+    public Boolean init() {
+        TextDataAccessInterface tLoader = new TextDataAccess(); 
         PictureDataAccessInterface pLoader = new PictureDataAccess(); 
+
+        List<String> movies = tLoader.load("film");
+        List<String> series = tLoader.load("serier");
+
+        Boolean moviesRes = Initialize(movies, pLoader);
+        Boolean seriesRes = Initialize(series, pLoader);
+
+        return moviesRes && seriesRes;
+    }
+
+    public String getMediaInformation(int id) {
+        return medias.get(id).getTitle();
+    }
+
+    public BufferedImage getMediaPicture(int id) {
+        return medias.get(id).getPicture(); 
+    }
+
+    public List<? extends Displayable> getDisplayables() {
+        List<? extends Displayable> displayList = medias; 
+        return displayList; 
+    }
+
+    public List<Media> getGenreList(String genre) {
+        return null; 
+    }  
+
+    public List<Media> search(String input) {
+        return null; 
+    } 
+
+    private Boolean Initialize(List<String> media, PictureDataAccessInterface pLoader) {
         for (String s : media) {
             s = s.trim(); 
             String[] fields = s.split(";"); 
+
             if(fields.length < 4 || fields.length > 5) { throw new IllegalArgumentException("Invalid lines in media: " + s); }
 
             BufferedImage image = pLoader.Load(fields[0]); 
@@ -63,29 +99,7 @@ public class State implements StateInterface {
                 medias.add(serie); 
             }
         }
-
-        return true;
+        return true; 
     }
-
-    public String getMediaInformation(int id) {
-        return medias.get(id).getTitle();
-    }
-
-    public BufferedImage getMediaPicture(int id) {
-        return medias.get(id).getPicture(); 
-    }
-
-    public List<? extends Displayable> getDisplayables() {
-        List<? extends Displayable> displayList = medias; 
-        return displayList; 
-    }
-
-    public List<Media> getGenreList(String genre) {
-        return null; 
-    }  
-
-    public List<Media> search(String input) {
-        return null; 
-    } 
 
 }
