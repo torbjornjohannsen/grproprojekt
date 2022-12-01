@@ -15,4 +15,9 @@ public class User {
         this.gender = gender;
         this.watchHistory = new ArrayList<>();
     }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public String getGender() { return gender; }
+
 }
