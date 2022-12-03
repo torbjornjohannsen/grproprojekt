@@ -96,7 +96,7 @@ public class GUI {
         List<? extends Displayable> allDisplayables = state.getDisplayables();
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(allDisplayables.size() / 9, 8));
+        panel.setLayout(new GridLayout(allDisplayables.size() / 8, 9));
         JScrollPane scrPane = new JScrollPane(panel);
         
         for(Displayable element : allDisplayables) {
