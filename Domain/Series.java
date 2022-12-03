@@ -31,4 +31,9 @@ public class Series extends Media{
 
         return panel;
     }
+
+    @Override
+    public JPanel displayInfo() {
+        
+    }
 }
