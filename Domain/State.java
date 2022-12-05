@@ -62,8 +62,20 @@ public class State implements StateInterface {
         return displayList; 
     }
 
-    public List<String> getGenreList(String genre) {
-        return null; 
+    public List<? extends Displayable> getGenreList(String genre) {
+        ArrayList<Media> results = new ArrayList<>();
+
+
+        //O^2 not good
+        for (Media media : medias){
+            for (String g : media.genre) {
+                if (g.equalsIgnoreCase(genre)) {
+                    results.add(media);
+                }
+            }
+        }
+
+        return results; 
     }  
 
     public List<? extends Displayable> search(String input) {
@@ -114,7 +126,9 @@ public class State implements StateInterface {
 
             BufferedImage image = pLoader.Load(fields[0]); 
 
-            String[] genresArr = fields[2].split(",");    
+            String[] genresArr = fields[2].split(", ");
+            genresArr[0] = genresArr[0].substring(1);
+            
             List<String> genres = Arrays.asList(genresArr); 
             
             double whyyyy; 

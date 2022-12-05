@@ -21,8 +21,12 @@ public class GUI {
 
     private static JFrame frame = makeMainFrame();
     private static JComponent currentView = makeHomeView();
+
     
     public static void main(String[] args) {
+
+        //Terminates program when exited
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         frame.add(currentView, BorderLayout.CENTER);
@@ -68,15 +72,34 @@ public class GUI {
 
         JTextField searchBar = new JTextField(20);
 
-        JButton searchButton = new JButton("Søg");
+        JButton searchButton = new JButton("Søg efter titel");
         searchButton.addActionListener(e -> {
-            //needs to be retrieved from main method
+            //needs to be retrieved from main method instead
             State state = new State();
             state.init();
-            state.search(searchBar.getText());
             
             frame.remove(currentView);
             frame.add(makeSearchView(searchBar.getText()));
+            frame.validate();
+                
+        });
+
+        //Better way to get genres?
+        String[] genres = {"Crime", "Drama", "Biography", "History", "Thriller", "Horror",
+                            "Sport", "Romance", "War", "Mystery", "Adventure", "Family",
+                            "Fantasy", "Film-Noir", "Musical", "Sci-fi", "Comedy", "Action",
+                            "Western", "Music", "Animation", "Talk-show", "Documentary"};
+        JComboBox comboBox = new JComboBox<>(genres);
+        comboBox.setEditable(true);
+
+
+        JButton genreButton = new JButton("Søg efter genre");
+        genreButton.addActionListener(e -> {
+            //needs to be retrieved from main method
+            State state = new State();
+            state.init();
+            frame.remove(currentView);
+            frame.add(makeGenreView(comboBox.getSelectedItem().toString()));
             frame.validate();
                 
         });
@@ -86,6 +109,8 @@ public class GUI {
         menuBar.add(seriesButton);
         menuBar.add(searchBar);
         menuBar.add(searchButton);
+        menuBar.add(comboBox);
+        menuBar.add(genreButton);
 
         return menuBar;
     }
@@ -150,6 +175,26 @@ public class GUI {
         state.init();
 
         List<? extends Displayable> allMatches = state.search(seachString);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(12, 9));
+        JScrollPane scrPane = new JScrollPane(panel);
+        
+        for(Displayable element : allMatches) {
+            
+            panel.add(element.display());
+            
+        }
+
+        currentView = scrPane;
+        return  scrPane;
+    }
+
+    private static JScrollPane makeGenreView(String genre) {
+        State state = new State();
+        state.init();
+
+        List<? extends Displayable> allMatches = state.getGenreList(genre);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(12, 9));
