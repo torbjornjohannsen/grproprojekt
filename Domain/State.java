@@ -104,7 +104,12 @@ public class State implements StateInterface {
     }
 
     public void AddFavorite(int movieID) {
-        users.get(curUserID).AddFavorite(movieID);
+        try {
+            users.get(curUserID).AddFavorite(movieID);
+        } catch (IndexOutOfBoundsException e) {
+
+            System.out.println("Tried to add a favorite for an invalid user");
+        }
     }
 
     public void AddFavorite(int movieID, int userID) {

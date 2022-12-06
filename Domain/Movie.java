@@ -16,10 +16,11 @@ public class Movie extends Media{
     }
 
     JPanel panel = new JPanel();
+    StateInterface state;
 
     @Override 
-    public JPanel display() {
-        //JPanel panel = new JPanel();
+    public JPanel display(StateInterface state) {
+        this.state = state;
         panel.setLayout(new GridLayout());
             
             panel.add(displayPicture());
@@ -68,7 +69,7 @@ public class Movie extends Media{
         });
 
         addToFavoritesButton.addActionListener(e -> {
-            
+            state.AddFavorite(id);
         });
 
         return informationPanel;

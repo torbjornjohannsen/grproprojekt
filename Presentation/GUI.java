@@ -116,7 +116,7 @@ public class GUI {
         panel.setLayout(new GridLayout(12, 9));
         JScrollPane scrPane = new JScrollPane(panel);
         for(Displayable element : contents) {
-            panel.add(element.display());
+            panel.add(element.display(state));
         }
         currentView = scrPane;
         return  scrPane;

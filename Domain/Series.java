@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 
 import java.awt.GridLayout;
@@ -27,7 +26,7 @@ public class Series extends Media{
     JPanel panel = new JPanel();
 
     @Override 
-    public JPanel display() {
+    public JPanel display(StateInterface state) {
         //JPanel panel = new JPanel();
         panel.setLayout(new GridLayout());
             
