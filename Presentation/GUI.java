@@ -19,11 +19,15 @@ import Domain.State;
 
 public class GUI {
 
-    private static JFrame frame = makeMainFrame();
-    private static JComponent currentView = makeHomeView();
-
+    private static JFrame frame;
+    private static JComponent currentView;
+    private static State state;
     
     public static void main(String[] args) {
+        state = new State();
+        state.init();
+        frame = makeMainFrame();
+        currentView = makeView(state.getDisplayables());
 
         //Terminates program when exited
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,21 +55,21 @@ public class GUI {
         JButton homeButton = new JButton("Hjem");
         homeButton.addActionListener(e -> {
             frame.remove(currentView);
-            frame.add(makeHomeView());
+            frame.add(makeView(state.getDisplayables()));
             frame.validate();
         });
 
         JButton moviesButton = new JButton("Film");
         moviesButton.addActionListener(e -> {
             frame.remove(currentView);
-            frame.add(makeMovieView());
+            frame.add(makeView(state.getMovieDisplayables()));
             frame.validate();
         });
 
         JButton seriesButton = new JButton("Serier");
         seriesButton.addActionListener(e -> {
             frame.remove(currentView);
-            frame.add(makeSeriesView());
+            frame.add(makeView(state.getSeriesDisplayables()));
             frame.validate();
         });
         homeButton.setPreferredSize(new Dimension(200,50));
@@ -74,14 +78,9 @@ public class GUI {
 
         JButton searchButton = new JButton("Søg efter titel");
         searchButton.addActionListener(e -> {
-            //needs to be retrieved from main method instead
-            State state = new State();
-            state.init();
-            
             frame.remove(currentView);
-            frame.add(makeSearchView(searchBar.getText()));
+            frame.add(makeView(state.search(searchBar.getText())));
             frame.validate();
-                
         });
 
         //Better way to get genres?
@@ -89,17 +88,14 @@ public class GUI {
                             "Sport", "Romance", "War", "Mystery", "Adventure", "Family",
                             "Fantasy", "Film-Noir", "Musical", "Sci-fi", "Comedy", "Action",
                             "Western", "Music", "Animation", "Talk-show", "Documentary"};
+        
         JComboBox comboBox = new JComboBox<>(genres);
         comboBox.setEditable(true);
 
-
         JButton genreButton = new JButton("Søg efter genre");
-        genreButton.addActionListener(e -> {
-            //needs to be retrieved from main method
-            State state = new State();
-            state.init();
+        genreButton.addActionListener(e -> {            
             frame.remove(currentView);
-            frame.add(makeGenreView(comboBox.getSelectedItem().toString()));
+            frame.add(makeView(state.getGenreList(comboBox.getSelectedItem().toString())));
             frame.validate();
                 
         });
@@ -115,99 +111,14 @@ public class GUI {
         return menuBar;
     }
 
-    private static JScrollPane makeHomeView() {
-        State state = new State();
-        state.init();
-        List<? extends Displayable> allDisplayables = state.getDisplayables();
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(allDisplayables.size() / 8, 9));
-        JScrollPane scrPane = new JScrollPane(panel);
-        
-        for(Displayable element : allDisplayables) {
-            panel.add(element.display());
-        }
-        
-        currentView = scrPane;
-        return  scrPane;
-    }
-
-    private static JScrollPane makeMovieView() {
-        State state = new State(); 
-        state.init();
-        List<? extends Displayable> allDisplayables = state.getMovieDisplayables();
-
+    private static JScrollPane makeView(List<? extends Displayable> contents) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(12, 9));
         JScrollPane scrPane = new JScrollPane(panel);
-        
-        for(Displayable element : allDisplayables) {
-            
+        for(Displayable element : contents) {
             panel.add(element.display());
-            
         }
-
         currentView = scrPane;
         return  scrPane;
     }
-
-    private static JScrollPane makeSeriesView() {
-        State state = new State(); 
-        state.init();
-        List<? extends Displayable> sereDisplayables = state.getSeriesDisplayables();
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(12, 9));
-        JScrollPane scrPane = new JScrollPane(panel);
-        
-        for(Displayable element : sereDisplayables) {
-            
-            panel.add(element.display());
-            
-        }
-
-        currentView = scrPane;
-        return  scrPane;
-    }
-
-    private static JScrollPane makeSearchView(String seachString) {
-        State state = new State();
-        state.init();
-
-        List<? extends Displayable> allMatches = state.search(seachString);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(12, 9));
-        JScrollPane scrPane = new JScrollPane(panel);
-        
-        for(Displayable element : allMatches) {
-            
-            panel.add(element.display());
-            
-        }
-
-        currentView = scrPane;
-        return  scrPane;
-    }
-
-    private static JScrollPane makeGenreView(String genre) {
-        State state = new State();
-        state.init();
-
-        List<? extends Displayable> allMatches = state.getGenreList(genre);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(12, 9));
-        JScrollPane scrPane = new JScrollPane(panel);
-        
-        for(Displayable element : allMatches) {
-            
-            panel.add(element.display());
-            
-        }
-
-        currentView = scrPane;
-        return  scrPane;
-    }
-
 }
