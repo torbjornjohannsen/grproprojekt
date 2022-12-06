@@ -6,6 +6,4 @@ public interface Displayable {
     
     JPanel display();
 
-    JPanel displayInfo();
-
 }
