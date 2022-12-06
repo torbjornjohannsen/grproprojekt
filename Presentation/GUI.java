@@ -48,19 +48,27 @@ public class GUI {
     }
 
     private static JPanel makeMenuBar() {
+
+
         JPanel menuBar = new JPanel();
         menuBar.setLayout(new GridLayout(1, 5));
         menuBar.setSize(10, 10);
 
         JButton homeButton = new JButton("Hjem");
         homeButton.addActionListener(e -> {
+            State state = new State();
+            state.init();
             frame.remove(currentView);
             frame.add(makeView(state.getDisplayables()));
             frame.validate();
         });
 
         JButton moviesButton = new JButton("Film");
+
+        
         moviesButton.addActionListener(e -> {
+            State state = new State();
+            state.init();
             frame.remove(currentView);
             frame.add(makeView(state.getMovieDisplayables()));
             frame.validate();
@@ -68,6 +76,8 @@ public class GUI {
 
         JButton seriesButton = new JButton("Serier");
         seriesButton.addActionListener(e -> {
+            State state = new State();
+            state.init();
             frame.remove(currentView);
             frame.add(makeView(state.getSeriesDisplayables()));
             frame.validate();
@@ -78,6 +88,8 @@ public class GUI {
 
         JButton searchButton = new JButton("Søg efter titel");
         searchButton.addActionListener(e -> {
+            State state = new State();
+            state.init();
             frame.remove(currentView);
             frame.add(makeView(state.search(searchBar.getText())));
             frame.validate();
@@ -93,7 +105,9 @@ public class GUI {
         comboBox.setEditable(true);
 
         JButton genreButton = new JButton("Søg efter genre");
-        genreButton.addActionListener(e -> {            
+        genreButton.addActionListener(e -> {   
+            State state = new State();
+            state.init();         
             frame.remove(currentView);
             frame.add(makeView(state.getGenreList(comboBox.getSelectedItem().toString())));
             frame.validate();
@@ -112,6 +126,8 @@ public class GUI {
     }
 
     private static JScrollPane makeView(List<? extends Displayable> contents) {
+        State state = new State();
+        state.init();
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(12, 9));
         JScrollPane scrPane = new JScrollPane(panel);
