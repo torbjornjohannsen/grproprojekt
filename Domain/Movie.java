@@ -15,53 +15,63 @@ public class Movie extends Media{
         super(id, title, year, genre, rating, image);
     }
 
+    JPanel panel = new JPanel();
+
     @Override 
     public JPanel display() {
-        JPanel panel = new JPanel();
+        //JPanel panel = new JPanel();
         panel.setLayout(new GridLayout());
-            BufferedImage img = image;
-            ImageIcon icon = new ImageIcon(img);
-            JButton button = new JButton(icon);
-            button.addActionListener(e -> {
-                panel.remove(button);
-                panel.add(displayInfo());
-                panel.validate();
-            });
-            button.setBorderPainted(false);
-            button.setFocusPainted(false);
-            panel.add(button);
+            
+            panel.add(displayPicture());
 
         return panel;
     }
 
-    @Override
-    public JPanel displayInfo() {
-        JPanel panel = new JPanel();
-        JPanel informationPanel = new JPanel(new GridLayout(3,1));
-        //panel.setLayout(new GridLayout(2,1));
-        JButton button = new JButton(title);
+    private JButton displayPicture() {
+        BufferedImage img = image;
+        ImageIcon icon = new ImageIcon(img);
+        JButton button = new JButton(icon);
+        button.addActionListener(e -> {
+            panel.remove(button);
+            panel.add(displayInfo());
+            panel.validate();
+        });
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+
+        return button;
+    }
+
+    private JPanel displayInfo() {
+        JPanel informationPanel = new JPanel();
+        informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.PAGE_AXIS));
+        JLabel titleLabel = new JLabel(title);
         JLabel yearOfReleaseLabel = new JLabel("Udgivelses år: " + year);
         JLabel ratingLabel = new JLabel("Bedømmelse: " + rating);
         JLabel genreLabel = new JLabel(getGenreAsOneString());
+        JButton watchButton = new JButton("Se");
+        JButton addToFavoritesButton = new JButton("Tilføj til favoritter");
+        JButton returnButton = new JButton("Tilbage");
 
-       
+        informationPanel.add(titleLabel);
         informationPanel.add(yearOfReleaseLabel);
         informationPanel.add(ratingLabel);
         informationPanel.add(genreLabel);
+        informationPanel.add(watchButton);
+        informationPanel.add(addToFavoritesButton);
+        informationPanel.add(returnButton);
        
-        button.addActionListener(e -> {
+        returnButton.addActionListener(e -> {
             panel.remove(informationPanel);
-            panel.remove(button);
-            panel.add(display());
+            panel.add(displayPicture());
             panel.validate();
         });
 
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
-        panel.add(button);
-        panel.add(informationPanel);
+        addToFavoritesButton.addActionListener(e -> {
+            
+        });
 
-        return panel;
+        return informationPanel;
     }
 
     private String getGenreAsOneString() {
