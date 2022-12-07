@@ -2,6 +2,7 @@ package Domain;
 
 import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
 
 import Data.PictureDataAccess;
@@ -24,7 +25,9 @@ public class State implements StateInterface {
         movies = new ArrayList<>(); 
         medias = new ArrayList<>(); 
         users = new ArrayList<>(); 
-        curUserID = -1; 
+        curUserID = 0; 
+
+        //users.add(new User("Default", 69, "attack helicopter")); 
 
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
     }
@@ -35,8 +38,9 @@ public class State implements StateInterface {
 
         Boolean moviesRes = InitMediaType(tLoader.load("film"), pLoader);
         Boolean seriesRes = InitMediaType(tLoader.load("serier"), pLoader);
+        Boolean usersRes = initUsers(tLoader.load("users")); 
 
-        return moviesRes && seriesRes;
+        return moviesRes && seriesRes && usersRes;
     }
 
     public String getMediaInformation(int id) {
@@ -121,7 +125,7 @@ public class State implements StateInterface {
             users.get(curUserID).AddFavorite(movieID);
         } catch (IndexOutOfBoundsException e) {
 
-            System.out.println("Tried to add a favorite for an invalid user");
+            System.out.println("Tried to add a favorite for an invalid current user: " + curUserID);
         }
     }
 
@@ -130,8 +134,46 @@ public class State implements StateInterface {
             users.get(userID).AddFavorite(movieID);
         } catch (IndexOutOfBoundsException e) {
 
-            System.out.println("Tried to add a favorite for an invalid user");
+            System.out.println("Tried to add a favorite for an invalid user: " + userID);
         }
+    }
+
+    public void AddWatched(int movieID) {
+        try {
+            users.get(curUserID).AddWHistory(movieID);
+        } catch (IndexOutOfBoundsException e) {
+
+            System.out.println("Tried to add watched for an invalid current user: " + curUserID);
+        }
+    }
+
+    public void AddWatched(int movieID, int userID) {
+        try {
+            users.get(userID).AddWHistory(movieID);
+        } catch (IndexOutOfBoundsException e) {
+
+            System.out.println("Tried to add watched for an invalid user: " + userID);
+        }
+    }
+
+    public void WriteUsers() {
+        TextDataAccessInterface writer = new TextDataAccess(); 
+        List<String> output = new ArrayList<>(); 
+        for (User user : users) {
+            String line = user.getName() + "; " + user.getAge() + "; " + user.getGender() + "; ";
+            List<Integer> watchHistory = user.getWatchHistory();
+            for(int i = 0; i < watchHistory.size(); i++) {
+                line += watchHistory.get(i) + (i + 1 == watchHistory.size() ? "" : ", "); // if its not the last element end line w. ", "
+            } 
+            line += "; "; 
+            List<Integer> favorites = user.getFavoriteList();
+            for(int i = 0; i < favorites.size(); i++) {
+                line += favorites.get(i) + (i + 1 == favorites.size() ? "" : ", "); 
+            }  
+            line += ";";
+            output.add(line);
+        }
+        writer.Write(output, "users");
     }
 
     private Boolean InitMediaType(List<String> media, PictureDataAccessInterface pLoader) {
@@ -164,7 +206,7 @@ public class State implements StateInterface {
                 Movie m = new Movie(medias.size(), fields[0], fields[1], genres, whyyyy, image);
                 movies.add(m); 
                 medias.add(m);
-            } else { // its a series //TODO make this an if statement and make the else throw an error
+            } else { // its a series //TODO make this an if statement and make the else throw an error; Already did that, look at the initial if statement
                 String[] seasonsArr = fields[4].split(","); 
                 Map<Integer, Integer> seasonMap = new HashMap<>(); 
                 for(String season : seasonsArr)
@@ -175,6 +217,32 @@ public class State implements StateInterface {
                 Series serie = new Series(medias.size(), fields[0], fields[1], genres, whyyyy, image, seasonMap);
                 series.add(serie); 
                 medias.add(serie); 
+            }
+        }
+        return true; 
+    }
+
+    private Boolean initUsers(List<String> userList) {
+        for (String s : userList) {
+            s = s.trim(); 
+            String[] fields = s.split(";"); 
+
+            if(fields.length != 5) { throw new IllegalArgumentException("Invalid user-string"); }
+
+            users.add(new User(fields[0], Integer.parseInt(fields[1].trim()), fields[2]));
+
+            String[] watched = fields[4].split(","); 
+            if(watched.length > 1) { // split just returns the same string if no matches, and its concievable that a user has no watched or favorites
+                for(String w : watched) {
+                    users.get(users.size() - 1).AddWHistory(Integer.parseInt(w.trim()));
+                }
+            }
+
+            String[] favorites = fields[4].split(","); 
+            if(favorites.length > 1) {
+                for(String f : favorites) {
+                    users.get(users.size() - 1).AddWHistory(Integer.parseInt(f.trim()));
+                }
             }
         }
         return true; 

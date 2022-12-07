@@ -15,4 +15,8 @@ public interface StateInterface {
     public Boolean SetCurUser(int userID); 
     public void AddFavorite(int movieID); 
     public void AddFavorite(int movieID, int userID); 
+    public void AddWatched(int movieID); 
+    public void AddWatched(int movieID, int userID);
+
+    public void WriteUsers(); 
 }

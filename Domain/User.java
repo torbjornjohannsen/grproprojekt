@@ -20,6 +20,8 @@ public class User {
     public String getName() { return name; }
     public int getAge() { return age; }
     public String getGender() { return gender; }
+    public List<Integer> getWatchHistory() { return watchHistory; }
+    public List<Integer> getFavoriteList() { return favoriteList; }
     public void AddFavorite(int favoriteID) { favoriteList.add(favoriteID); }
     public void RemoveFavorite(int favoriteID) { favoriteList.remove((Object)favoriteID); } // need to cast to object otherwise it sees the int as an index
     public void AddWHistory(int watchedID) { watchHistory.add(watchedID); }

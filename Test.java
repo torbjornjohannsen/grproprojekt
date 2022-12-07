@@ -20,7 +20,7 @@ public class Test {
 
         System.out.println("Film list size: " + res.size());
 
-        loader.Write(res, "test");
+        loader.Write(res.subList(0, 10), "test");
     }
 
     private static void TestPictureDataAccess() {
@@ -53,9 +53,14 @@ public class Test {
         // expected to work fine
         state.AddFavorite(5);
         state.AddFavorite(69, 0);
+        state.AddWatched(5);
+        state.AddWatched(69, 0);
 
         // expected to fail
         state.AddFavorite(2, -5);
+        state.AddWatched(2, -5);
+
+        state.WriteUsers();
 
     }
 
