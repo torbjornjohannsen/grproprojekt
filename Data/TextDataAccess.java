@@ -1,7 +1,6 @@
 package Data;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -26,6 +25,22 @@ public class TextDataAccess implements Data.TextDataAccessInterface {
         }
 
         return dataSepereatedIntoStrings;
+    }
+
+    public void Write(List<String> input, String path) {
+
+        try {
+            FileWriter outputFile = new FileWriter("./MedieData/" + path + ".txt"); 
+            for (String string : input) {
+                outputFile.write(string + "\n"); 
+            }
+            outputFile.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+
     }
 
 }

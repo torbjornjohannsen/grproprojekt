@@ -6,4 +6,6 @@ public interface TextDataAccessInterface {
     
     List<String> load(String path);
 
+    void Write(List<String> input, String path); 
+
 }

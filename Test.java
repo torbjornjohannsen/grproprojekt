@@ -19,6 +19,8 @@ public class Test {
         List<String> res = loader.load("film"); 
 
         System.out.println("Film list size: " + res.size());
+
+        loader.Write(res, "test");
     }
 
     private static void TestPictureDataAccess() {
@@ -56,4 +58,5 @@ public class Test {
         state.AddFavorite(2, -5);
 
     }
+
 }
