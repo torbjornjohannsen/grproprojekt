@@ -5,9 +5,8 @@ import javax.swing.JPanel;
 import java.awt.Color;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 
-public abstract class Media implements Displayable{
+public abstract class Media implements Displayable {
     int id;
     String title;
     String year; // since series have ranges of years, can be 1990-1991 or 2011- for instance, all we do is print them so string is fine
@@ -30,6 +29,7 @@ public abstract class Media implements Displayable{
     public List<String> getGenre() {return genre;}
     public double getRating() {return rating;}
     public BufferedImage getPicture() {return image;}
+    public String getStartYear() {return getYear().split("-")[0].trim();}
 
     public JPanel display() {
         JPanel panel = new JPanel();
@@ -38,5 +38,6 @@ public abstract class Media implements Displayable{
         return panel;
     }
 
+    
 }
 

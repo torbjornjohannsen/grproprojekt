@@ -2,8 +2,6 @@ package Data;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
-import javax.swing.*;
-
 
 public class PictureDataAccess implements PictureDataAccessInterface {
 

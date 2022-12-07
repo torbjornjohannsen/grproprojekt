@@ -81,12 +81,25 @@ public class State implements StateInterface {
     public List<? extends Displayable> search(String input) {
         ArrayList<Media> results = new ArrayList<>();
         for(Media media : medias) {
-            if(media.title.toLowerCase().contains(input.toLowerCase())) {
+            if(media.getTitle().toLowerCase().contains(input.toLowerCase()) || 
+        input.toLowerCase().contains(media.getTitle().toLowerCase()) || 
+        input.contains(media.getStartYear())) {
                 results.add(media);
             }
         }
         return results; 
-    } 
+    }
+
+    public List<? extends Displayable> sortYear() {
+        List<Media> displayList = medias; 
+        displayList.sort((o1, o2) -> o1.getStartYear().compareTo(o2.getStartYear()));
+
+        for(Media media : medias) {
+            System.out.println(media.getStartYear());
+        }
+        return displayList;
+    }
+
 
     public void AddUser(String name, int age, String gender) {
         users.add(new User(name, age, gender));

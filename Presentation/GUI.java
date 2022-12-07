@@ -1,20 +1,14 @@
 package Presentation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.MenuEvent;
 
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import Data.TextDataAccess;
 import Domain.Displayable;
-import Domain.Media;
-import Domain.Movie;
 import Domain.State;
 
 public class GUI {
@@ -38,6 +32,7 @@ public class GUI {
 
         frame.add(makeMenuBar(), BorderLayout.PAGE_START);
         frame.validate();
+
     }
 
     private static JFrame makeMainFrame() {
@@ -114,6 +109,16 @@ public class GUI {
                 
         });
 
+        JButton chronologicalButton = new JButton("Søg efter release date");
+        chronologicalButton.addActionListener(e -> {   
+            State state = new State();
+            state.init();
+            frame.remove(currentView);
+            frame.add(makeView(state.sortYear()));
+            frame.validate();
+            
+        });
+
         menuBar.add(homeButton);
         menuBar.add(moviesButton);
         menuBar.add(seriesButton);
@@ -121,6 +126,7 @@ public class GUI {
         menuBar.add(searchButton);
         menuBar.add(comboBox);
         menuBar.add(genreButton);
+        menuBar.add(chronologicalButton);
 
         return menuBar;
     }
