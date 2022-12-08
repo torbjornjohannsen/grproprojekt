@@ -20,6 +20,7 @@ public class State implements StateInterface {
     private NumberFormat numFormat; 
     private Map<String, List<Media>> genreMap; // created when needed
     private NavigableMap<String, List<Media>> titleWordMap; // a sub-interface of SortedMap
+    private NavigableMap<Integer, List<Media>> yearMap; 
     private List<String> titleWordList;
 
     public State() 
@@ -29,8 +30,9 @@ public class State implements StateInterface {
         medias = new ArrayList<>(); 
         users = new ArrayList<>(); 
         genreMap = new HashMap<>();
-        titleWordMap = new TreeMap<String, List<Media>>(); 
+        titleWordMap = new TreeMap<>(); 
         titleWordList = new ArrayList<>(); 
+        yearMap = new TreeMap<>(); 
         curUserID = 0; 
 
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
@@ -60,6 +62,22 @@ public class State implements StateInterface {
                     titleWordMap.put(s, mList); 
                 }
             }
+            
+            String[] years = m.getYear().trim().split("-"); 
+            
+            for(String s : years) {
+                s = s.trim();
+                int year = Integer.parseInt(s); 
+                if(yearMap.containsKey(year)) {
+                    yearMap.get(year).add(m); 
+                } else {
+                    List<Media> mList = new ArrayList<>(); 
+                    mList.add(m);
+                    yearMap.put(year, mList);
+                }
+            }
+
+            
 
             List<String> mediaGenres = m.getGenre(); 
             for (String g : mediaGenres) {
@@ -125,21 +143,33 @@ public class State implements StateInterface {
         input = input.toUpperCase(); // for standardization
         input = input.trim(); // since we use spaces to signify ever
         String[] words = input.split(" "); 
-        List<String> matches = new ArrayList<>();
+        List<String> titleMatches = new ArrayList<>();
+        List<Integer> yearMatches = new ArrayList<>();
         for(String s : words ) {
-            //System.out.println("looking for word: \"" + s + "\"");
-            List<String> match = containsSearch(s, titleWordList); 
-            if(match == null) { continue; }
-            matches.addAll(match);
+            List<String> match; 
+            if(s.matches("\\d+")) {
+                yearMatches.add(Integer.parseInt(s.trim())); 
+            } else {
+                match = containsSearch(s, titleWordList); 
+                if(match == null) { continue; }
+                titleMatches.addAll(match);
+            }
+            
         }
-        if(matches.size() == 0) { return new ArrayList<Media>(); } // empty list
+        if(titleMatches.size() + yearMatches.size() == 0) { return new ArrayList<Media>(); } // empty list
         
 
-        Collections.sort(matches); 
+        Collections.sort(titleMatches); 
 
-        for(String s : matches) {
+        for(String s : titleMatches) {
             //System.out.println("dumb cunt: " + s); 
             for (Media m : titleWordMap.get(s)) {
+                resSet.add(m);
+            }
+        }
+
+        for (Integer i : yearMatches) {
+            for(Media m : yearMap.get(i)) {
                 resSet.add(m);
             }
         }
