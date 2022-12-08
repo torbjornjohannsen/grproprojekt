@@ -13,6 +13,7 @@ public interface StateInterface {
     public List<? extends Displayable> getGenreList(String genre);   
     public List<? extends Displayable> search(String input);   
     public Boolean SetCurUser(int userID); 
+    public void AddUser(String name, int age, String gender); 
     public void AddFavorite(int movieID); 
     public void AddFavorite(int movieID, int userID); 
     public void AddWatched(int movieID); 
