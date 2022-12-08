@@ -19,8 +19,8 @@ public class State implements StateInterface {
     protected int curUserID; 
     private NumberFormat numFormat; 
     private Map<String, List<Media>> genreMap; // created when needed
-    private NavigableMap<String, Media> titleMap; // a sub-interface of SortedMap
-    private List<String> titleList;
+    private NavigableMap<String, List<Media>> titleWordMap; // a sub-interface of SortedMap
+    private List<String> titleWordList;
 
     public State() 
     {
@@ -29,8 +29,8 @@ public class State implements StateInterface {
         medias = new ArrayList<>(); 
         users = new ArrayList<>(); 
         genreMap = new HashMap<>();
-        titleMap = new TreeMap<String,Media>(); 
-        titleList = new ArrayList<>(); 
+        titleWordMap = new TreeMap<String, List<Media>>(); 
+        titleWordList = new ArrayList<>(); 
         curUserID = 0; 
 
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
@@ -46,8 +46,20 @@ public class State implements StateInterface {
 
         
         for(Media m : medias) {
-            titleMap.put(cleanSearchString(m.title), m);
-            titleList.add(cleanSearchString(m.title)); 
+            String[] titleWords = cleanSearchString(m.title);
+            for(String s : titleWords) {
+                //if(s.isEmpty()) { break; } // fucking jesus
+                if(titleWordMap.containsKey(s)) { // faster than checking the list since its sorted
+                    titleWordMap.get(s).add(m); 
+                } else {
+                    titleWordList.add(s); 
+
+                    List<Media> mList = new ArrayList<>(); 
+                    mList.add(m); 
+
+                    titleWordMap.put(s, mList); 
+                }
+            }
 
             List<String> mediaGenres = m.getGenre(); 
             for (String g : mediaGenres) {
@@ -60,12 +72,15 @@ public class State implements StateInterface {
             }
         }
 
-        Collections.sort(titleList);
+        Collections.sort(titleWordList);
 
         /* System.out.println("Sorted title list: "); 
-        for(String s : titleList) {
-            System.out.println(s);
-        } */
+        for(String s : titleWordList) {
+            System.out.println("\"" + s + "\": ");
+            for(Media m : titleWordMap.get(s)) {
+                System.out.println("  - "+ getMediaInformation(m.id));
+            }
+        } */ 
 
         return moviesRes && seriesRes && usersRes;
     }
@@ -98,7 +113,8 @@ public class State implements StateInterface {
     }  
 
     public List<? extends Displayable> search(String input) {
-        ArrayList<Media> results = new ArrayList<>();
+        //ArrayList<Media> results = new ArrayList<>();
+        Set<Media> resSet = new HashSet<>(); 
         /* for(Media media : medias) {
             if(media.getTitle().toLowerCase().contains(input.toLowerCase()) || 
         input.toLowerCase().contains(media.getTitle().toLowerCase()) || 
@@ -106,27 +122,37 @@ public class State implements StateInterface {
                 results.add(media);
             }
         } */
-
-        List<String> matches = containsSearch(input.toUpperCase(), titleList);
-        if(matches == null) { return results; }
-        /* System.out.println("Matches for " + input);
-        for(String s : matches) {
-            System.out.println("- " + s);
-        } */
-
-        NavigableMap<String, Media> resMap = titleMap.subMap(matches.get(0), true, matches.get(matches.size() - 1), true);
-
-        for (Map.Entry<String, Media> m : resMap.entrySet()) {
-            results.add(m.getValue());
+        input = input.toUpperCase(); // for standardization
+        input = input.trim(); // since we use spaces to signify ever
+        String[] words = input.split(" "); 
+        List<String> matches = new ArrayList<>();
+        for(String s : words ) {
+            //System.out.println("looking for word: \"" + s + "\"");
+            List<String> match = containsSearch(s, titleWordList); 
+            if(match == null) { continue; }
+            matches.addAll(match);
         }
-        return results; 
+        if(matches.size() == 0) { return new ArrayList<Media>(); } // empty list
+        
+
+        Collections.sort(matches); 
+
+        for(String s : matches) {
+            //System.out.println("dumb cunt: " + s); 
+            for (Media m : titleWordMap.get(s)) {
+                resSet.add(m);
+            }
+        }
+
+        return new ArrayList<Media>(resSet); 
     }
 
     private List<String> containsSearch(String input, List<String> prevList) {
         int midIndex = prevList.size() / 2; 
         //System.out.println("midIndex: " + midIndex); 
-        if(midIndex < 2) { return null; }
+        if(midIndex < 1) { return null; }
         String midVal = prevList.get(midIndex); 
+        //System.out.println(midIndex + ": cmp: \"" + input + "\" and \"" + midVal + "\"");
         if(midVal.contains(input)) {
             //System.out.println("matches");
             int upper, lower; 
@@ -154,13 +180,19 @@ public class State implements StateInterface {
         }
     }
 
-    private String cleanSearchString(String in) {
+    private String[] cleanSearchString(String in) {
         in = " " + in + " "; // to make sure all seperate words have spaces in front and back 
         in = in.toUpperCase(); 
+        in = in.replaceAll(" ", "  "); // double space so we can remove double invalids
         // Remove common words with no real meaning
-        in = in.replaceAll(" THE | A | I | AN | YOU | OF | AND | IN | TO | WE ", "");
-        in = in.replaceAll(" ", ""); // finally remove spaces
-        return in; 
+        in = in.replaceAll(" THE | A | I | AN | YOU | OF | AND | IN | TO | WE |'S| IT'S | IT |,|\\.|-| ALL |&", " ");
+        in = in.trim(); 
+        String[] out = in.split(" +"); 
+        for(String s : out) {
+            s = s.trim();
+            if(s.isEmpty()) { System.out.println("motherfucker :\"" + in + "\""); s = "fuckingcuntqwe"; }
+        }
+        return out; 
     }
 
     public List<? extends Displayable> sortYear() {

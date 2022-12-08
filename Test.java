@@ -45,9 +45,9 @@ public class Test {
 
         System.out.println("size: " + lisss.size());
 
-        for(int i = 0; i < 200; i++) {
+        /* for(int i = 0; i < 200; i++) {
             System.out.println(i + " " + state.getMediaInformation(i));
-        }
+        } */
 
 
         lisss = state.getGenreList("Drama");
@@ -65,7 +65,7 @@ public class Test {
 
         state.WriteUsers();
 
-        state.search("lo");
+        state.search("lord rings");
 
     }
 
