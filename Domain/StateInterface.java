@@ -1,7 +1,7 @@
 package Domain;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
+import java.util.*;
 
 public interface StateInterface {
     public Boolean init();
@@ -19,6 +19,7 @@ public interface StateInterface {
     public void AddWatched(int movieID); 
     public void AddWatched(int movieID, int userID);
     public void WriteUsers(); 
+    public Set<String> getGenres(); 
 
 
 }

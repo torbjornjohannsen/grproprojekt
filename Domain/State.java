@@ -29,7 +29,6 @@ public class State implements StateInterface {
         genreMap = new HashMap<>();
         curUserID = 0; 
 
-
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
     }
 
@@ -39,7 +38,21 @@ public class State implements StateInterface {
 
         Boolean moviesRes = InitMediaType(tLoader.load("film"), pLoader);
         Boolean seriesRes = InitMediaType(tLoader.load("serier"), pLoader);
-        Boolean usersRes = initUsers(tLoader.load("users")); 
+        Boolean usersRes = initUsers(tLoader.load("users"));    
+
+        
+        // Create the map of genres
+        for(Media m : medias) {
+            List<String> mediaGenres = m.getGenre(); 
+            for (String g : mediaGenres) {
+                if(genreMap.containsKey(g)) { genreMap.get(g).add(m); }
+                else { 
+                    List<Media> mediaList = new ArrayList<>(); 
+                    mediaList.add(m); 
+                    genreMap.put(g, mediaList);
+                }
+            }
+        }
 
         return moviesRes && seriesRes && usersRes;
     }
@@ -68,33 +81,6 @@ public class State implements StateInterface {
     }
 
     public List<? extends Displayable> getGenreList(String genre) {
-
-        if(genreMap.size() == 0) {
-            for(Media m : medias) {
-                List<String> mediaGenres = m.getGenre(); 
-                for (String g : mediaGenres) {
-                    if(genreMap.containsKey(g)) { genreMap.get(g).add(m); }
-                    else { 
-                        List<Media> mediaList = new ArrayList<>(); 
-                        mediaList.add(m); 
-                        genreMap.put(g, mediaList);
-                    }
-                }
-            }
-
-            // Just some ineffecient testing
-            /* for(List<Media> mList : genreMap.values()) {
-                System.out.println("\nGenre:");
-                for(Media m : mList) {
-                    System.out.print(m.getTitle() + ": ");
-                    for(String g : m.getGenre()) {
-                        System.out.print( ", "+ g);
-                    }
-                    System.out.println(" ");
-                }
-            } */
-        }
-
         return genreMap.get(genre); 
     }  
 
@@ -272,6 +258,10 @@ public class State implements StateInterface {
             }
         }
         return true; 
+    }
+
+    public Set<String> getGenres() {
+        return genreMap.keySet(); 
     }
 
 }
