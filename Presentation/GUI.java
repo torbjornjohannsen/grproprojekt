@@ -27,7 +27,7 @@ public class GUI {
         //Terminates program when exited
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        
+
         frame.add(currentView, BorderLayout.CENTER);
         frame.validate();
 
@@ -137,7 +137,7 @@ public class GUI {
         panel.setLayout(new GridLayout(12, 9));
         JScrollPane scrPane = new JScrollPane(panel);
         for(Displayable element : contents) {
-            panel.add(element.display(s));
+            panel.add(element.display());
         }
         currentView = scrPane;
         return  scrPane;

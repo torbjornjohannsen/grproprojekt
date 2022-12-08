@@ -4,6 +4,6 @@ import javax.swing.JPanel;
 
 public interface Displayable {
     
-    JPanel display(StateInterface state);
+    JPanel display();
 
 }

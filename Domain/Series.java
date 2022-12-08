@@ -25,7 +25,7 @@ public class Series extends Media{
     
 
     @Override 
-    public JPanel display(StateInterface state) {
+    public JPanel display() {
         panel = new JPanel();
         panel.setLayout(new GridLayout());
             
