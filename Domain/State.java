@@ -18,7 +18,7 @@ public class State implements StateInterface {
     protected List<User> users; 
     protected int curUserID; 
     private NumberFormat numFormat; 
-    private Map<String, List<Media>> genreMap; // created when needed
+    private Map<String, List<Media>> genreMap; 
     private NavigableMap<String, List<Media>> titleWordMap; // a sub-interface of SortedMap
     private NavigableMap<Integer, List<Media>> yearMap; 
     private List<String> titleWordList;
