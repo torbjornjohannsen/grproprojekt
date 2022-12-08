@@ -50,6 +50,8 @@ public class Test {
         }
 
 
+        lisss = state.getGenreList("Drama");
+
         // expected to work fine
         state.AddFavorite(5);
         state.AddFavorite(69, 0);

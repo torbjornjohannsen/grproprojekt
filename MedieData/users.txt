@@ -1,1 +1,1 @@
-Default; 69;  attack helicopter; 5, 69; 5, 69;
+Default; 69;    attack helicopter; 5, 69, 5, 69, 5, 69; 5, 69;

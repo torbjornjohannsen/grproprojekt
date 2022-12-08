@@ -18,6 +18,7 @@ public class State implements StateInterface {
     protected List<User> users; 
     protected int curUserID; 
     private NumberFormat numFormat; 
+    private Map<String, List<Media>> genreMap; // created when needed
 
     public State() 
     {
@@ -25,6 +26,7 @@ public class State implements StateInterface {
         movies = new ArrayList<>(); 
         medias = new ArrayList<>(); 
         users = new ArrayList<>(); 
+        genreMap = new HashMap<>();
         curUserID = 0; 
 
         //users.add(new User("Default", 69, "attack helicopter")); 
@@ -67,19 +69,34 @@ public class State implements StateInterface {
     }
 
     public List<? extends Displayable> getGenreList(String genre) {
-        ArrayList<Media> results = new ArrayList<>();
 
-
-        //O^2 not good
-        for (Media media : medias){
-            for (String g : media.genre) {
-                if (g.equalsIgnoreCase(genre)) {
-                    results.add(media);
+        if(genreMap.size() == 0) {
+            for(Media m : medias) {
+                List<String> mediaGenres = m.getGenre(); 
+                for (String g : mediaGenres) {
+                    if(genreMap.containsKey(g)) { genreMap.get(g).add(m); }
+                    else { 
+                        List<Media> mediaList = new ArrayList<>(); 
+                        mediaList.add(m); 
+                        genreMap.put(g, mediaList);
+                    }
                 }
             }
+
+            // Just some ineffecient testing
+            /* for(List<Media> mList : genreMap.values()) {
+                System.out.println("\nGenre:");
+                for(Media m : mList) {
+                    System.out.print(m.getTitle() + ": ");
+                    for(String g : m.getGenre()) {
+                        System.out.print( ", "+ g);
+                    }
+                    System.out.println(" ");
+                }
+            } */
         }
 
-        return results; 
+        return genreMap.get(genre); 
     }  
 
     public List<? extends Displayable> search(String input) {
