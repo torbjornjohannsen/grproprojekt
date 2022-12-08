@@ -19,6 +19,8 @@ public class State implements StateInterface {
     protected int curUserID; 
     private NumberFormat numFormat; 
     private Map<String, List<Media>> genreMap; // created when needed
+    private NavigableMap<String, Media> titleMap; // a sub-interface of SortedMap
+    private List<String> titleList;
 
     public State() 
     {
@@ -27,6 +29,8 @@ public class State implements StateInterface {
         medias = new ArrayList<>(); 
         users = new ArrayList<>(); 
         genreMap = new HashMap<>();
+        titleMap = new TreeMap<String,Media>(); 
+        titleList = new ArrayList<>(); 
         curUserID = 0; 
 
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
@@ -41,8 +45,10 @@ public class State implements StateInterface {
         Boolean usersRes = initUsers(tLoader.load("users"));    
 
         
-        // Create the map of genres
         for(Media m : medias) {
+            titleMap.put(cleanSearchString(m.title), m);
+            titleList.add(cleanSearchString(m.title)); 
+
             List<String> mediaGenres = m.getGenre(); 
             for (String g : mediaGenres) {
                 if(genreMap.containsKey(g)) { genreMap.get(g).add(m); }
@@ -53,6 +59,13 @@ public class State implements StateInterface {
                 }
             }
         }
+
+        Collections.sort(titleList);
+
+        /* System.out.println("Sorted title list: "); 
+        for(String s : titleList) {
+            System.out.println(s);
+        } */
 
         return moviesRes && seriesRes && usersRes;
     }
@@ -86,14 +99,68 @@ public class State implements StateInterface {
 
     public List<? extends Displayable> search(String input) {
         ArrayList<Media> results = new ArrayList<>();
-        for(Media media : medias) {
+        /* for(Media media : medias) {
             if(media.getTitle().toLowerCase().contains(input.toLowerCase()) || 
         input.toLowerCase().contains(media.getTitle().toLowerCase()) || 
         input.contains(media.getStartYear())) {
                 results.add(media);
             }
+        } */
+
+        List<String> matches = containsSearch(input.toUpperCase(), titleList);
+        if(matches == null) { return results; }
+        /* System.out.println("Matches for " + input);
+        for(String s : matches) {
+            System.out.println("- " + s);
+        } */
+
+        NavigableMap<String, Media> resMap = titleMap.subMap(matches.get(0), true, matches.get(matches.size() - 1), true);
+
+        for (Map.Entry<String, Media> m : resMap.entrySet()) {
+            results.add(m.getValue());
         }
         return results; 
+    }
+
+    private List<String> containsSearch(String input, List<String> prevList) {
+        int midIndex = prevList.size() / 2; 
+        //System.out.println("midIndex: " + midIndex); 
+        if(midIndex < 2) { return null; }
+        String midVal = prevList.get(midIndex); 
+        if(midVal.contains(input)) {
+            //System.out.println("matches");
+            int upper, lower; 
+            upper = lower = midIndex; 
+
+            //Iterate upwards 
+            for(int i = midIndex; i < prevList.size(); i++) {
+                if(!prevList.get(i).contains(input)) { break; }
+                upper = i; 
+            }
+
+            //Iterate downwards 
+            for(int i = midIndex; i > 0; i--) {
+                if(!prevList.get(i).contains(input)) { break; }
+                lower = i; 
+            }
+
+            return prevList.subList(lower, upper + 1); 
+        } else if(input.compareTo(midVal) >= 0) { // input greater than or equal to midVal 
+            //System.out.println("higher");
+            return containsSearch(input, prevList.subList(midIndex, prevList.size())); // so look at the upper half of the list
+        } else { // lower
+            //System.out.println("lower");
+            return containsSearch(input, prevList.subList(0, midIndex + 1)); // so look at the lower half
+        }
+    }
+
+    private String cleanSearchString(String in) {
+        in = " " + in + " "; // to make sure all seperate words have spaces in front and back 
+        in = in.toUpperCase(); 
+        // Remove common words with no real meaning
+        in = in.replaceAll(" THE | A | I | AN | YOU | OF | AND | IN | TO | WE ", "");
+        in = in.replaceAll(" ", ""); // finally remove spaces
+        return in; 
     }
 
     public List<? extends Displayable> sortYear() {

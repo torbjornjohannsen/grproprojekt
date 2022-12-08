@@ -65,6 +65,8 @@ public class Test {
 
         state.WriteUsers();
 
+        state.search("lo");
+
     }
 
 }
