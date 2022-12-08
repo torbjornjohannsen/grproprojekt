@@ -15,18 +15,18 @@ import java.awt.image.*;
 
 public class Series extends Media{
     Map<Integer, Integer> seasons;
-
+    private JPanel panel; 
     
     public Series (int id, String title, String year, List<String> genre, double rating, BufferedImage image, Map<Integer, Integer> seasons) {
         super(id, title, year, genre, rating, image);
         this.seasons = seasons;
     }
 
-    JPanel panel = new JPanel();
+    
 
     @Override 
     public JPanel display(StateInterface state) {
-        //JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.setLayout(new GridLayout());
             
             panel.add(displayPicture());

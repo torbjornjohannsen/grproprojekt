@@ -15,12 +15,12 @@ public class Movie extends Media{
         super(id, title, year, genre, rating, image);
     }
 
-    JPanel panel = new JPanel();
+    private JPanel panel;
     StateInterface state;
 
     @Override 
     public JPanel display(StateInterface state) {
-        this.state = state;
+        panel  = new JPanel(); 
         panel.setLayout(new GridLayout());
             
             panel.add(displayPicture());
