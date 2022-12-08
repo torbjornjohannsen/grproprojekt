@@ -336,7 +336,7 @@ public class State implements StateInterface {
 
             if(fields.length != 5) { throw new IllegalArgumentException("Invalid user-string"); }
 
-            users.add(new User(fields[0], Integer.parseInt(fields[1].trim()), fields[2]));
+            users.add(new User(fields[0], Integer.parseInt(fields[1].trim()), fields[2].trim()));
 
             String[] watched = fields[4].split(","); 
             if(watched.length > 1) { // split just returns the same string if no matches, and its concievable that a user has no watched or favorites
