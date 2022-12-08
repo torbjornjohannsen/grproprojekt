@@ -166,10 +166,6 @@ public class State implements StateInterface {
     public List<? extends Displayable> sortYear() {
         List<Media> displayList = medias; 
         displayList.sort((o1, o2) -> o1.getStartYear().compareTo(o2.getStartYear()));
-
-        for(Media media : medias) {
-            System.out.println(media.getStartYear());
-        }
         return displayList;
     }
 
