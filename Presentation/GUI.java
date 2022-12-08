@@ -1,6 +1,6 @@
 package Presentation;
 
-import java.util.List;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -90,13 +90,9 @@ public class GUI {
             frame.validate();
         });
 
-        //Better way to get genres?
-        String[] genres = {"Crime", "Drama", "Biography", "History", "Thriller", "Horror",
-                            "Sport", "Romance", "War", "Mystery", "Adventure", "Family",
-                            "Fantasy", "Film-Noir", "Musical", "Sci-fi", "Comedy", "Action",
-                            "Western", "Music", "Animation", "Talk-show", "Documentary"};
+        Set<String> genreSet = state.getGenres(); 
         
-        JComboBox comboBox = new JComboBox<>(genres);
+        JComboBox comboBox = new JComboBox<>(genreSet.toArray());
         comboBox.setEditable(true);
 
         JButton genreButton = new JButton("Søg efter genre");
