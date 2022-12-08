@@ -190,6 +190,7 @@ public class State implements StateInterface {
                 i++; 
             }
             line += "; "; 
+            i = 0; 
             Set<Integer> favorites = user.getFavoriteList();
             for (Integer fID : favorites) {
                 line += fID + (i + 1 == favorites.size() ? "" : ", "); 
