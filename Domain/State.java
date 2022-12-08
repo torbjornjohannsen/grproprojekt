@@ -173,7 +173,12 @@ public class State implements StateInterface {
         }
     }
 
-    public void WriteUsers() {
+    protected void finalize() // destructor
+    {
+        WriteUsers();
+    }
+
+    private void WriteUsers() {
         TextDataAccessInterface writer = new TextDataAccess(); 
         List<String> output = new ArrayList<>(); 
         for (User user : users) {

@@ -18,5 +18,5 @@ public interface StateInterface {
     public void AddWatched(int movieID); 
     public void AddWatched(int movieID, int userID);
 
-    public void WriteUsers(); 
+
 }

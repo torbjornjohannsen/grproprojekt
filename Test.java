@@ -62,7 +62,6 @@ public class Test {
         state.AddFavorite(2, -5);
         state.AddWatched(2, -5);
 
-        state.WriteUsers();
 
     }
 
