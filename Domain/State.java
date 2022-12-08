@@ -193,6 +193,7 @@ public class State implements StateInterface {
             Set<Integer> favorites = user.getFavoriteList();
             for (Integer fID : favorites) {
                 line += fID + (i + 1 == favorites.size() ? "" : ", "); 
+                i++; 
             } 
             line += ";";
             output.add(line);
