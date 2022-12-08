@@ -140,6 +140,6 @@ public class GUI {
             panel.add(element.display());
         }
         currentView = scrPane;
-        return  scrPane;
+        return  scrPane; 
     }
 }
