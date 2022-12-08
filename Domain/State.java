@@ -190,7 +190,7 @@ public class State implements StateInterface {
         String[] out = in.split(" +"); 
         for(String s : out) {
             s = s.trim();
-            if(s.isEmpty()) { System.out.println("motherfucker :\"" + in + "\""); s = "fuckingcuntqwe"; }
+            if(s.isEmpty()) { throw new InputMismatchException("invalid input: " + s + " in cleanSearchString"); }
         }
         return out; 
     }
