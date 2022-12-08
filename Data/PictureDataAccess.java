@@ -14,10 +14,10 @@ public class PictureDataAccess implements PictureDataAccessInterface {
 
             try {
 
-                System.out.println(e.getMessage() + " For image: \"" +  imageName + "\"");
+                System.out.println("PictureDataAccess error: " + e.getMessage() + " For image: \"" +  imageName + "\"");
                 image = ImageIO.read(new File("./MedieData/pictures/default.png"));
             } catch (IOException ex) {
-                System.out.println(e.getMessage() + " For default");
+                System.out.println("PictureDataAccess error: " + e.getMessage() + " For default");
                 return null; // really shouldnt ever happen but java autism freaks out if we dont do this since ImageIO.read throws an exception
             }
 

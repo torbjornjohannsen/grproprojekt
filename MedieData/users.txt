@@ -1,3 +1,3 @@
-Default McDefaultson; 69; attack helicopter; 5, 69; 5, 69, ;
-Default; 155;         attack helicopter; ; ;
-john test; 420; qwewq; ; ;
+yoDefault McDefaultson; 69;       attack helicopter; ; ;
+yoDefault; 155;               attack helicopter; ; ;
+yojohn test; 420;       qwewq; ; ;

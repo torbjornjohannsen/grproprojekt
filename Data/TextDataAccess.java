@@ -19,15 +19,15 @@ public class TextDataAccess implements Data.TextDataAccessInterface {
         
         try {
             Scanner sc = new Scanner(inputFile, "UTF-8");
-            sc.useLocale(loc);
+            //sc.useLocale(loc);
 
             while(sc.hasNextLine()) {
-                dataSepereatedIntoStrings.add("yo" + sc.nextLine());
+                dataSepereatedIntoStrings.add(sc.nextLine());
             }
 
             sc.close();
 
-        } catch(FileNotFoundException fnfe) {
+        } catch(Exception fnfe) {
             System.out.println(fnfe.getMessage());
         }
 
