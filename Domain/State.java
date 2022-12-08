@@ -140,9 +140,9 @@ public class State implements StateInterface {
                 results.add(media);
             }
         } */
-        input = input.toUpperCase(); // for standardization
-        input = input.trim(); // since we use spaces to signify ever
-        String[] words = input.split(" "); 
+        /* input = input.toUpperCase(); // for standardization
+        input = input.trim(); // since we use spaces to signify ever */
+        String[] words = cleanSearchString(input); 
         List<String> titleMatches = new ArrayList<>();
         List<Integer> yearMatches = new ArrayList<>();
         for(String s : words ) {
@@ -180,7 +180,7 @@ public class State implements StateInterface {
     private List<String> containsSearch(String input, List<String> prevList) {
         int midIndex = prevList.size() / 2; 
         //System.out.println("midIndex: " + midIndex); 
-        if(midIndex < 1) { return null; }
+        if(prevList.size() < 2) { return null; }
         String midVal = prevList.get(midIndex); 
         //System.out.println(midIndex + ": cmp: \"" + input + "\" and \"" + midVal + "\"");
         if(midVal.contains(input)) {
@@ -215,7 +215,7 @@ public class State implements StateInterface {
         in = in.toUpperCase(); 
         in = in.replaceAll(" ", "  "); // double space so we can remove double invalids
         // Remove common words with no real meaning
-        in = in.replaceAll(" THE | A | I | AN | YOU | OF | AND | IN | TO | WE |'S| IT'S | IT |,|\\.|-| ALL |&", " ");
+        in = in.replaceAll(" THE | A | I | AN | YOU | OF | AND | IN | TO | WE |'S| IT'S | IT |,|\\.|-| ALL |&|;", " ");
         in = in.trim(); 
         String[] out = in.split(" +"); 
         for(String s : out) {
