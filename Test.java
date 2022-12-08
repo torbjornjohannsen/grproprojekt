@@ -63,6 +63,8 @@ public class Test {
         state.AddWatched(2, -5);
 
 
+        state.WriteUsers();
+
     }
 
 }

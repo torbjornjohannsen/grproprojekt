@@ -29,7 +29,6 @@ public class State implements StateInterface {
         genreMap = new HashMap<>();
         curUserID = 0; 
 
-        //users.add(new User("Default", 69, "attack helicopter")); 
 
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
     }
@@ -173,25 +172,28 @@ public class State implements StateInterface {
         }
     }
 
-    protected void finalize() // destructor
+    @Override
+    protected void finalize() throws Throwable //destructor
     {
         WriteUsers();
     }
 
-    private void WriteUsers() {
+    public void WriteUsers() {
         TextDataAccessInterface writer = new TextDataAccess(); 
         List<String> output = new ArrayList<>(); 
         for (User user : users) {
             String line = user.getName() + "; " + user.getAge() + "; " + user.getGender() + "; ";
-            List<Integer> watchHistory = user.getWatchHistory();
-            for(int i = 0; i < watchHistory.size(); i++) {
-                line += watchHistory.get(i) + (i + 1 == watchHistory.size() ? "" : ", "); // if its not the last element end line w. ", "
-            } 
+            Set<Integer> watchHistory = user.getWatchHistory();
+            int i = 0; 
+            for (Integer watchedID : watchHistory) {
+                line += watchedID + (i + 1 == watchHistory.size() ? "" : ", ");
+                i++; 
+            }
             line += "; "; 
-            List<Integer> favorites = user.getFavoriteList();
-            for(int i = 0; i < favorites.size(); i++) {
-                line += favorites.get(i) + (i + 1 == favorites.size() ? "" : ", "); 
-            }  
+            Set<Integer> favorites = user.getFavoriteList();
+            for (Integer fID : favorites) {
+                line += fID + (i + 1 == favorites.size() ? "" : ", "); 
+            } 
             line += ";";
             output.add(line);
         }
