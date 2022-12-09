@@ -57,7 +57,6 @@ public class GUI {
         JButton homeButton = new JButton("Hjem");
         homeButton.addActionListener(e -> {
             makeView(state.getDisplayables(), state);
-            frame.validate();
         });
 
         JButton moviesButton = new JButton("Film");
@@ -65,13 +64,11 @@ public class GUI {
         
         moviesButton.addActionListener(e -> {
             makeView(state.getMovieDisplayables(), state);
-            frame.validate();
         });
 
         JButton seriesButton = new JButton("Serier");
         seriesButton.addActionListener(e -> {
             makeView(state.getSeriesDisplayables(), state);
-            frame.validate();
         });
         homeButton.setPreferredSize(new Dimension(200,50));
 
@@ -80,7 +77,6 @@ public class GUI {
         JButton searchButton = new JButton("Søg efter titel");
         searchButton.addActionListener(e -> {
             makeView(state.search(searchBar.getText()), state);
-            frame.validate();
         });
 
         Set<String> genreSet = state.getGenres(); 
@@ -91,14 +87,12 @@ public class GUI {
         JButton genreButton = new JButton("Søg efter genre");
         genreButton.addActionListener(e -> {   
             makeView(state.getGenreList(comboBox.getSelectedItem().toString()), state);
-            frame.validate();
                 
         });
 
         JButton chronologicalButton = new JButton("Søg efter release date");
         chronologicalButton.addActionListener(e -> {   
             makeView(state.sortYear(), state);
-            frame.validate();
             
         });
 
