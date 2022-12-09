@@ -5,6 +5,7 @@ import java.util.*;
 import javax.swing.*;
 
 import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -30,6 +31,7 @@ public class GUI {
         //Terminates program when exited
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+
 
         frame.add(scrPane, BorderLayout.CENTER);
         frame.validate();
@@ -113,10 +115,19 @@ public class GUI {
     }
 
     private static void makeView(List<? extends Displayable> contents, StateInterface s) {
+        int elementsInCol = 1512 / 156;
+        int elementsInRow = contents.size() / elementsInCol + 1;
         contentPanel.removeAll();
-        contentPanel.setLayout(new GridLayout(12, 9));
         for(Displayable element : contents) {
             contentPanel.add(element.display());
         }
+
+        if(contents.size() < elementsInCol) {
+            contentPanel.setLayout(new FlowLayout());
+        } else {
+            contentPanel.setLayout(new GridLayout(elementsInRow, elementsInCol));
+        }
+
+        frame.validate(); 
     }
 }
