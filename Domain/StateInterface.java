@@ -23,3 +23,5 @@ public interface StateInterface {
 
 
 }
+
+/* Bør vi blot fjerne dette interface, da det ikke i grunden bliver brugt? */
