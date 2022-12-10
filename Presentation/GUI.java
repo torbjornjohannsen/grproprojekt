@@ -54,14 +54,13 @@ public class GUI {
         JPanel menuBar = new JPanel();
         menuBar.setLayout(new GridLayout(1, 5));
         menuBar.setSize(10, 10);
+
         JButton homeButton = new JButton("Hjem");
         homeButton.addActionListener(e -> {
             makeView(state.getDisplayables(), state);
         });
 
         JButton moviesButton = new JButton("Film");
-
-        
         moviesButton.addActionListener(e -> {
             makeView(state.getMovieDisplayables(), state);
         });
@@ -96,6 +95,11 @@ public class GUI {
             
         });
 
+        JButton userButton = new JButton("Profil");
+        userButton.addActionListener(e -> {
+            makeUserView();
+        });
+
         menuBar.add(homeButton);
         menuBar.add(moviesButton);
         menuBar.add(seriesButton);
@@ -104,6 +108,7 @@ public class GUI {
         menuBar.add(comboBox);
         menuBar.add(genreButton);
         menuBar.add(chronologicalButton);
+        menuBar.add(userButton);
 
         return menuBar;
     }
@@ -123,5 +128,10 @@ public class GUI {
         }
 
         frame.validate(); 
+    }
+
+    private static void makeUserView() {
+        contentPanel.removeAll();
+        frame.validate();
     }
 }
