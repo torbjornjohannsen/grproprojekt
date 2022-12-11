@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import Domain.Displayable;
 import Domain.State;
 import Domain.StateInterface;
+import Domain.UserInterface;
 
 public class GUI {
 
@@ -132,6 +133,33 @@ public class GUI {
 
     private static void makeUserView() {
         contentPanel.removeAll();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
+        UserInterface user = state.getUser();
+        JLabel userName = new JLabel("Hej " + user.getName());
+        JLabel userAge = new JLabel("Alder: " + user.getAge());
+        contentPanel.add(userName);
+        contentPanel.add(userAge);
+
+        Set<Integer> watchedSet = user.getWatchHistory();
+        /*JPanel userWatchHistoryPanel = new JPanel();
+        userWatchHistoryPanel.setLayout(new FlowLayout());
+        userWatchHistoryPanel.add(new JLabel("Din historik:"));*/
+        for(int element : watchedSet) {
+            Displayable watched = state.getMedia(element); 
+            contentPanel.add(watched.display());
+        }
+        //contentPanel.add(contentPanel);
+
+        Set<Integer> favoriteSet = user.getFavoriteList();
+        /*JPanel userFavoritesPanel = new JPanel();
+        userFavoritesPanel.setLayout(new FlowLayout());
+        userFavoritesPanel.add(new JLabel("Dine favoritter: "));*/
+        for(int element : favoriteSet) {
+            Displayable favorite = state.getMedia(element); 
+            contentPanel.add(favorite.display());
+        }
+        //contentPanel.add(contentPanel);
+
         frame.validate();
     }
 }

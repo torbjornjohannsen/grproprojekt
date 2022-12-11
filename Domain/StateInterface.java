@@ -6,6 +6,7 @@ import java.util.*;
 public interface StateInterface {
     public Boolean init();
     public String getMediaInformation(int id);
+    public Displayable getMedia(int id);
     public List<? extends Displayable> getDisplayables(); 
     public List<? extends Displayable> getMovieDisplayables(); 
     public List<? extends Displayable> getSeriesDisplayables(); 
@@ -20,6 +21,7 @@ public interface StateInterface {
     public void AddWatched(int movieID, int userID);
     public void WriteUsers(); 
     public Set<String> getGenres(); 
+    public UserInterface getUser();
 
 
 }

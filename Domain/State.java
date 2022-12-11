@@ -378,7 +378,7 @@ public class State implements StateInterface {
             String[] favorites = fields[4].split(","); 
             if(favorites.length > 1) {
                 for(String f : favorites) {
-                    users.get(users.size() - 1).AddWHistory(Integer.parseInt(f.trim()));
+                    users.get(users.size() - 1).AddFavorite(Integer.parseInt(f.trim()));
                 }
             }
         }
@@ -387,6 +387,14 @@ public class State implements StateInterface {
 
     public Set<String> getGenres() {
         return genreMap.keySet(); 
+    }
+
+    public UserInterface getUser() {
+        return users.get(curUserID);
+    }
+
+    public Displayable getMedia(int id) {
+        return medias.get(id);
     }
 
 }

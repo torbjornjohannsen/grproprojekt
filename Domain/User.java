@@ -2,7 +2,7 @@ package Domain;
 
 import java.util.*;
 
-public class User {
+public class User implements UserInterface {
     protected String name;
     protected int age;
     protected String gender;
