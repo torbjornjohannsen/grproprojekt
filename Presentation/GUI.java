@@ -141,24 +141,26 @@ public class GUI {
         contentPanel.add(userAge);
 
         Set<Integer> watchedSet = user.getWatchHistory();
-        /*JPanel userWatchHistoryPanel = new JPanel();
+        JPanel userWatchHistoryPanel = new JPanel();
+        userWatchHistoryPanel.removeAll();
         userWatchHistoryPanel.setLayout(new FlowLayout());
-        userWatchHistoryPanel.add(new JLabel("Din historik:"));*/
+        userWatchHistoryPanel.add(new JLabel("Din historik:"));
         for(int element : watchedSet) {
             Displayable watched = state.getMedia(element); 
-            contentPanel.add(watched.display());
+            userWatchHistoryPanel.add(watched.display());
         }
-        //contentPanel.add(contentPanel);
+        contentPanel.add(userWatchHistoryPanel);
 
         Set<Integer> favoriteSet = user.getFavoriteList();
-        /*JPanel userFavoritesPanel = new JPanel();
+        JPanel userFavoritesPanel = new JPanel();
+        userFavoritesPanel.removeAll();
         userFavoritesPanel.setLayout(new FlowLayout());
-        userFavoritesPanel.add(new JLabel("Dine favoritter: "));*/
+        userFavoritesPanel.add(new JLabel("Dine favoritter: "));
         for(int element : favoriteSet) {
             Displayable favorite = state.getMedia(element); 
-            contentPanel.add(favorite.display());
+            userFavoritesPanel.add(favorite.display());
         }
-        //contentPanel.add(contentPanel);
+        contentPanel.add(userFavoritesPanel);
 
         frame.validate();
     }
