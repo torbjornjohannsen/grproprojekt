@@ -368,7 +368,7 @@ public class State implements StateInterface {
 
             users.add(new User(fields[0], Integer.parseInt(fields[1].trim()), fields[2].trim()));
 
-            String[] watched = fields[4].split(","); 
+            String[] watched = fields[3].split(","); 
             if(watched.length > 1) { // split just returns the same string if no matches, and its concievable that a user has no watched or favorites
                 for(String w : watched) {
                     users.get(users.size() - 1).AddWHistory(Integer.parseInt(w.trim()));
