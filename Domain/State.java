@@ -225,11 +225,11 @@ public class State implements StateInterface {
         return out; 
     }
 
-    public List<? extends Displayable> sortYear() {
+    /*public List<? extends Displayable> sortYear() {
         List<Media> displayList = medias; 
         displayList.sort((o1, o2) -> o1.getStartYear().compareTo(o2.getStartYear()));
         return displayList;
-    }
+    }*/
 
 
     public void AddUser(String name, int age, String gender) {

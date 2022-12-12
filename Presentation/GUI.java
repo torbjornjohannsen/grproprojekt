@@ -90,12 +90,6 @@ public class GUI {
                 
         });
 
-        JButton chronologicalButton = new JButton("Søg efter release date");
-        chronologicalButton.addActionListener(e -> {   
-            makeView(state.sortYear(), state);
-            
-        });
-
         JButton userButton = new JButton("Profil");
         userButton.addActionListener(e -> {
             makeUserView();
@@ -108,7 +102,6 @@ public class GUI {
         menuBar.add(searchButton);
         menuBar.add(comboBox);
         menuBar.add(genreButton);
-        menuBar.add(chronologicalButton);
         menuBar.add(userButton);
 
         return menuBar;
