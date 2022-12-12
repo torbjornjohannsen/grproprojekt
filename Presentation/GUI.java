@@ -119,7 +119,7 @@ public class GUI {
         int elementsInRow = contents.size() / elementsInCol + 1;
         contentPanel.removeAll();
         for(Displayable element : contents) {
-            contentPanel.add(element.display());
+            contentPanel.add(element.display(state));
         }
 
         if(contents.size() < elementsInCol) {
@@ -147,7 +147,7 @@ public class GUI {
         userWatchHistoryPanel.add(new JLabel("Din historik:"));
         for(int element : watchedSet) {
             Displayable watched = state.getMedia(element); 
-            userWatchHistoryPanel.add(watched.display());
+            userWatchHistoryPanel.add(watched.display(state));
         }
         contentPanel.add(userWatchHistoryPanel);
 
@@ -158,7 +158,7 @@ public class GUI {
         userFavoritesPanel.add(new JLabel("Dine favoritter: "));
         for(int element : favoriteSet) {
             Displayable favorite = state.getMedia(element); 
-            userFavoritesPanel.add(favorite.display());
+            userFavoritesPanel.add(favorite.display(state));
         }
         contentPanel.add(userFavoritesPanel);
 
