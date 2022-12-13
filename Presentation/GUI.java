@@ -17,7 +17,7 @@ import Domain.UserInterface;
 public class GUI {
 
     private static JFrame frame;
-    private static State state;
+    private static StateInterface state;
     private static JScrollPane scrPane;
     private static JPanel contentPanel;
     
