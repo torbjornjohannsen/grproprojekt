@@ -17,6 +17,10 @@ public interface StateInterface {
     public void AddUser(String name, int age, String gender); 
     public void AddFavorite(int movieID); 
     public void AddFavorite(int movieID, int userID); 
+    public void RemoveFavorite(int movieID);
+    public void RemoveFavorite(int movieID, int usrID);
+    public Boolean IsFavorite(int movieID); 
+    public Boolean IsFavorite(int movieID, int usrID);
     public void AddWatched(int movieID); 
     public void AddWatched(int movieID, int userID);
     public void WriteUsers(); 

@@ -53,6 +53,7 @@ public class Movie extends Media{
         JLabel genreLabel = new JLabel(getGenreAsOneString());
         JButton watchButton = new JButton("Se");
         JButton addToFavoritesButton = new JButton("Tilføj til favoritter");
+        JButton removeFromFavoritesButton = new JButton("Fjern fra favoritter");
         JButton returnButton = new JButton("Tilbage");
 
         informationPanel.add(titleLabel);
@@ -60,7 +61,11 @@ public class Movie extends Media{
         informationPanel.add(ratingLabel);
         informationPanel.add(genreLabel);
         informationPanel.add(watchButton);
-        informationPanel.add(addToFavoritesButton);
+        if(state.IsFavorite(id)) {
+            informationPanel.add(removeFromFavoritesButton);
+        } else { 
+            informationPanel.add(addToFavoritesButton);
+        }
         informationPanel.add(returnButton);
        
         returnButton.addActionListener(e -> {
@@ -71,10 +76,22 @@ public class Movie extends Media{
 
         addToFavoritesButton.addActionListener(e -> {
             state.AddFavorite(id);
+
+            panel.remove(informationPanel);
+            panel.add(displayPicture());
+            panel.validate();
         });
 
         watchButton.addActionListener(e -> {
             state.AddWatched(id);
+        });
+
+        removeFromFavoritesButton.addActionListener(e -> {
+            state.RemoveFavorite(id);
+            
+            panel.remove(informationPanel);
+            panel.add(displayPicture());
+            panel.validate();
         });
 
         return informationPanel;

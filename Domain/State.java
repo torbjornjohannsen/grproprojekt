@@ -35,6 +35,8 @@ public class State implements StateInterface {
         yearMap = new TreeMap<>(); 
         curUserID = 0; 
 
+        // Got this from https://stackoverflow.com/a/4323628
+        // Use france since they also use comma as decimal seperator and are one of the constants in locale
         numFormat = NumberFormat.getInstance(Locale.FRANCE); 
     }
 
@@ -50,7 +52,7 @@ public class State implements StateInterface {
         for(Media m : medias) {
             String[] titleWords = cleanSearchString(m.title);
             for(String s : titleWords) {
-                //if(s.isEmpty()) { break; } // fucking jesus
+                
                 if(titleWordMap.containsKey(s)) { // faster than checking the list since its sorted
                     titleWordMap.get(s).add(m); 
                 } else {
@@ -77,8 +79,6 @@ public class State implements StateInterface {
                 }
             }
 
-            
-
             List<String> mediaGenres = m.getGenre(); 
             for (String g : mediaGenres) {
                 if(genreMap.containsKey(g)) { genreMap.get(g).add(m); }
@@ -91,14 +91,6 @@ public class State implements StateInterface {
         }
 
         Collections.sort(titleWordList);
-
-        /* System.out.println("Sorted title list: "); 
-        for(String s : titleWordList) {
-            System.out.println("\"" + s + "\": ");
-            for(Media m : titleWordMap.get(s)) {
-                System.out.println("  - "+ getMediaInformation(m.id));
-            }
-        } */ 
 
         return moviesRes && seriesRes && usersRes;
     }
@@ -131,17 +123,7 @@ public class State implements StateInterface {
     }  
 
     public List<? extends Displayable> search(String input) {
-        //ArrayList<Media> results = new ArrayList<>();
         Set<Media> resSet = new HashSet<>(); 
-        /* for(Media media : medias) {
-            if(media.getTitle().toLowerCase().contains(input.toLowerCase()) || 
-        input.toLowerCase().contains(media.getTitle().toLowerCase()) || 
-        input.contains(media.getStartYear())) {
-                results.add(media);
-            }
-        } */
-        /* input = input.toUpperCase(); // for standardization
-        input = input.trim(); // since we use spaces to signify ever */
         String[] words = cleanSearchString(input); 
         List<String> titleMatches = new ArrayList<>();
         List<Integer> yearMatches = new ArrayList<>();
@@ -156,13 +138,11 @@ public class State implements StateInterface {
             }
             
         }
-        if(titleMatches.size() + yearMatches.size() == 0) { return new ArrayList<Media>(); } // empty list
+        if(titleMatches.size() + yearMatches.size() == 0) { return null; } // empty list
         
-
         Collections.sort(titleMatches); 
 
         for(String s : titleMatches) {
-            //System.out.println("dumb cunt: " + s); 
             for (Media m : titleWordMap.get(s)) {
                 resSet.add(m);
             }
@@ -225,12 +205,21 @@ public class State implements StateInterface {
         return out; 
     }
 
-    /*public List<? extends Displayable> sortYear() {
-        List<Media> displayList = medias; 
-        displayList.sort((o1, o2) -> o1.getStartYear().compareTo(o2.getStartYear()));
-        return displayList;
-    }*/
+    public Boolean IsFavorite(int movieID) {
+        return users.get(curUserID).getFavoriteList().contains(movieID);
+    }
 
+    public Boolean IsFavorite(int movieID, int usrID) {
+        return users.get(usrID).getFavoriteList().contains(movieID);
+    }
+
+    public void RemoveFavorite(int movieID) {
+        users.get(curUserID).RemoveFavorite(movieID);
+    }
+
+    public void RemoveFavorite(int movieID, int usrID) {
+        users.get(usrID).RemoveFavorite(movieID);
+    }
 
     public void AddUser(String name, int age, String gender) {
         users.add(new User(name, age, gender));
@@ -328,19 +317,18 @@ public class State implements StateInterface {
             
             List<String> genres = Arrays.asList(genresArr); 
             
-            double whyyyy; 
-            // Fucking comma seperated numbers, its either this or modifying the entire fucking text files to use a sensible, standard decimel seperator
+            double rating; 
             try {
                 fields[3] = fields[3].trim();
-                whyyyy = numFormat.parse(fields[3]).doubleValue();
+                rating = numFormat.parse(fields[3]).doubleValue();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                return null; 
+                return false; 
             }
 
             if(fields.length == 4 ) // its a movie
             {
-                Movie m = new Movie(medias.size(), fields[0], fields[1], genres, whyyyy, image);
+                Movie m = new Movie(medias.size(), fields[0], fields[1], genres, rating, image);
                 movies.add(m); 
                 medias.add(m);
             } else { // its a series //TODO make this an if statement and make the else throw an error; Already did that, look at the initial if statement
@@ -351,7 +339,7 @@ public class State implements StateInterface {
                     String[] seasonS = season.split("-"); 
                     seasonMap.put(Integer.parseInt(seasonS[0].trim()), Integer.parseInt(seasonS[1].trim()));
                 }
-                Series serie = new Series(medias.size(), fields[0], fields[1], genres, whyyyy, image, seasonMap);
+                Series serie = new Series(medias.size(), fields[0], fields[1], genres, rating, image, seasonMap);
                 series.add(serie); 
                 medias.add(serie); 
             }

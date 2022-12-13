@@ -6,20 +6,12 @@ import java.util.*;
 
 public class TextDataAccess implements Data.TextDataAccessInterface {
 
-    private Locale loc; 
-    public TextDataAccess() {
-        Locale.Builder builder = new Locale.Builder(); 
-        builder.setLanguage("da"); 
-        loc = builder.build();
-    }
-
     public List<String> load(String path) {
         List<String> dataSepereatedIntoStrings = new ArrayList<String>();
         File inputFile = new File("./MedieData/" + path + ".txt");
         
         try {
             Scanner sc = new Scanner(inputFile, "UTF-8");
-            //sc.useLocale(loc);
 
             while(sc.hasNextLine()) {
                 dataSepereatedIntoStrings.add(sc.nextLine());
