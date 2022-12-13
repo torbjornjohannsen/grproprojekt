@@ -76,7 +76,16 @@ public class GUI {
 
         JButton searchButton = new JButton("Søg efter titel");
         searchButton.addActionListener(e -> {
-            makeView(state.search(searchBar.getText()), state);
+            List<? extends Displayable> results = state.search(searchBar.getText()); 
+            if(results == null) {
+                contentPanel.removeAll(); 
+                JLabel noneFoundLabel = new JLabel("No matches found for your search query: \"" + searchBar.getText() + "\"");
+                contentPanel.add(noneFoundLabel); 
+                frame.validate(); 
+            } else {
+                makeView(results, state);
+            }
+            
         });
 
         Set<String> genreSet = state.getGenres(); 

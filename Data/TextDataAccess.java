@@ -11,6 +11,7 @@ public class TextDataAccess implements Data.TextDataAccessInterface {
         File inputFile = new File("./MedieData/" + path + ".txt");
         
         try {
+            // Got this from https://stackoverflow.com/a/4323628 
             Scanner sc = new Scanner(inputFile, "UTF-8");
 
             while(sc.hasNextLine()) {
@@ -37,9 +38,6 @@ public class TextDataAccess implements Data.TextDataAccessInterface {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        
-        
-
     }
 
 }

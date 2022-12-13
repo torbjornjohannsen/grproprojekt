@@ -124,13 +124,22 @@ public class State implements StateInterface {
 
     public List<? extends Displayable> search(String input) {
         Set<Media> resSet = new HashSet<>(); 
-        String[] words = cleanSearchString(input); 
+        String[] words; 
+        try {
+            words = cleanSearchString(input); 
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null; 
+        }
         List<String> titleMatches = new ArrayList<>();
-        List<Integer> yearMatches = new ArrayList<>();
+        int matchCounter = 0; 
         for(String s : words ) {
             List<String> match; 
             if(s.matches("\\d+")) {
-                yearMatches.add(Integer.parseInt(s.trim())); 
+                int year = Integer.parseInt(s.trim()); 
+                if(yearMap.containsKey(year)) {
+                    for(Media m : yearMap.get(year)) { resSet.add(m); matchCounter++; }
+                }
             } else {
                 match = containsSearch(s, titleWordList); 
                 if(match == null) { continue; }
@@ -138,7 +147,7 @@ public class State implements StateInterface {
             }
             
         }
-        if(titleMatches.size() + yearMatches.size() == 0) { return null; } // empty list
+        if(matchCounter + titleMatches.size() == 0) { return null; } 
         
         Collections.sort(titleMatches); 
 
@@ -148,23 +157,14 @@ public class State implements StateInterface {
             }
         }
 
-        for (Integer i : yearMatches) {
-            for(Media m : yearMap.get(i)) {
-                resSet.add(m);
-            }
-        }
 
         return new ArrayList<Media>(resSet); 
     }
 
     private List<String> containsSearch(String input, List<String> prevList) {
         int midIndex = prevList.size() / 2; 
-        //System.out.println("midIndex: " + midIndex); 
-        if(prevList.size() < 2) { return null; }
         String midVal = prevList.get(midIndex); 
-        //System.out.println(midIndex + ": cmp: \"" + input + "\" and \"" + midVal + "\"");
         if(midVal.contains(input)) {
-            //System.out.println("matches");
             int upper, lower; 
             upper = lower = midIndex; 
 
@@ -181,12 +181,14 @@ public class State implements StateInterface {
             }
 
             return prevList.subList(lower, upper + 1); 
-        } else if(input.compareTo(midVal) >= 0) { // input greater than or equal to midVal 
-            //System.out.println("higher");
+        }
+        
+        if(prevList.size() < 2) { return null; }
+
+        if(input.compareTo(midVal) >= 0) { // input greater than or equal to midVal 
             return containsSearch(input, prevList.subList(midIndex, prevList.size())); // so look at the upper half of the list
         } else { // lower
-            //System.out.println("lower");
-            return containsSearch(input, prevList.subList(0, midIndex + 1)); // so look at the lower half
+            return containsSearch(input, prevList.subList(0, midIndex + (midIndex > 1 ? 1 : 0))); // so look at the lower half
         }
     }
 
@@ -273,9 +275,10 @@ public class State implements StateInterface {
     }
 
     @Override
-    protected void finalize() throws Throwable //destructor
+    protected void finalize() throws Throwable 
     {
-        WriteUsers();
+        System.out.println("yo");
+        WriteUsers(); 
     }
 
     public void WriteUsers() {
@@ -331,7 +334,7 @@ public class State implements StateInterface {
                 Movie m = new Movie(medias.size(), fields[0], fields[1], genres, rating, image);
                 movies.add(m); 
                 medias.add(m);
-            } else { // its a series //TODO make this an if statement and make the else throw an error; Already did that, look at the initial if statement
+            } else { // its a series 
                 String[] seasonsArr = fields[4].split(","); 
                 Map<Integer, Integer> seasonMap = new HashMap<>(); 
                 for(String season : seasonsArr)
