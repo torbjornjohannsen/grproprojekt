@@ -18,7 +18,7 @@ public class Movie extends Media{
     private JPanel panel;
     StateInterface state;
 
-    @Override 
+    @Override
     public JPanel display(StateInterface state) {
         this.state = state;
         panel  = new JPanel(); 

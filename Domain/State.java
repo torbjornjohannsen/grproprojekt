@@ -39,7 +39,7 @@ public class State implements StateInterface {
     }
 
     public Boolean init() {
-        TextDataAccessInterface tLoader = new TextDataAccess(); 
+        TextDataAccessInterface tLoader = new TextDataAccess();
         PictureDataAccessInterface pLoader = new PictureDataAccess(); 
 
         Boolean moviesRes = InitMediaType(tLoader.load("film"), pLoader);
@@ -85,7 +85,7 @@ public class State implements StateInterface {
                 else { 
                     List<Media> mediaList = new ArrayList<>(); 
                     mediaList.add(m); 
-                    genreMap.put(g, mediaList);
+                    genreMap.put(g.trim(), mediaList);
                 }
             }
         }

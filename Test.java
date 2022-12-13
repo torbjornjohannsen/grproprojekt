@@ -7,13 +7,13 @@ import java.util.*;
 
 public class Test {
     public static void main(String[] args) {
-        TestPictureDataAccess(); 
+        TestPictureDataAccess();
         TestTextDataAccess(); 
         TestState();
     }
 
-    // Temporary tests, need to do it with JUnit properly later but just for now this works fine
     private static void TestTextDataAccess() {
+        System.out.println("TestTextDataAcess: ");
         TextDataAccessInterface loader = new TextDataAccess(); 
 
         List<String> res = loader.load("film"); 
@@ -21,37 +21,49 @@ public class Test {
         System.out.println("Film list size: " + res.size());
 
         loader.Write(res.subList(0, 10), "test");
+        System.out.println("");
+
     }
 
     private static void TestPictureDataAccess() {
+        System.out.println("TestPictureDataAcess: ");
         PictureDataAccessInterface loader = new PictureDataAccess(); 
 
         // Valid file name, supposed to just load it 
         BufferedImage validImage = loader.Load("24"); 
         // Invalid file name, supposed to say its invalid then load the default file 
-        BufferedImage invalidImage = loader.Load("qwewqeqweq invalid file name xdddddddddddd dd"); 
+        BufferedImage invalidImage = loader.Load("invalid file name"); 
 
         System.out.println("Valid image dimensions: " + validImage.getWidth() + ", " + validImage.getHeight());
         System.out.println("Invalid image dimensions: " + invalidImage.getWidth() + ", " + invalidImage.getHeight());
-
+        System.out.println("");
     }
 
     private static void TestState() {
-        StateInterface state = new Domain.State(); 
+        System.out.println("TestState: ");
+
+        StateInterface state = new State(); 
 
         state.init();
 
-        List<? extends Displayable> lisss = state.getDisplayables();
+        List<? extends Displayable> list1 = state.getDisplayables();
 
-        System.out.println("size: " + lisss.size());
+        System.out.println("Size: " + list1.size());
 
-        /* for(int i = 0; i < 200; i++) {
-            System.out.println(i + " " + state.getMediaInformation(i));
-        } */
+        List<? extends Displayable> list2 = state.getGenreList("Biography");
+        
+        //Expecting drama media
+        for (Displayable element : list2) {
+            System.out.println(state.getMediaInformation(element.getId()));
+        }
+        
+        List<? extends Displayable> list3 = state.search("2017");
 
-
-        lisss = state.getGenreList("Drama");
-
+        //Expecting media from 2017
+        for (Displayable element : list3) {
+            System.out.println(state.getMediaInformation(element.getId()));
+        }
+        
         // expected to work fine
         state.AddFavorite(5);
         state.AddFavorite(69, 0);
@@ -62,11 +74,13 @@ public class Test {
         state.AddFavorite(2, -5);
         state.AddWatched(2, -5);
 
-
         state.WriteUsers();
 
         state.search("lord rings");
+        System.out.println("");
 
     }
+
+    //lav en fjerde test hvor en ny tekstfil indeholder cursed serier, der skal give korrekt error handling
 
 }

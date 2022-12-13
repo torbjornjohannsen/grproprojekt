@@ -37,7 +37,6 @@ public abstract class Media implements Displayable {
 
         return panel;
     }
-
     
 }
 
