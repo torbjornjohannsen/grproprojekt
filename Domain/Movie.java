@@ -1,4 +1,5 @@
 package Domain;
+
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -15,28 +16,28 @@ public class Movie extends Media{
         super(id, title, year, genre, rating, image);
     }
 
-    private JPanel panel;
-    StateInterface state;
+    private JPanel mainPanel;
+    private StateInterface state;
 
     @Override
     public JPanel display(StateInterface state) {
         this.state = state;
-        panel  = new JPanel(); 
-        panel.setLayout(new GridLayout());
+        mainPanel  = new JPanel(); 
+        mainPanel.setLayout(new GridLayout());
             
-            panel.add(displayPicture());
+            mainPanel.add(getDisplayPicture());
 
-        return panel;
+        return mainPanel;
     }
 
-    private JButton displayPicture() {
+    private JButton getDisplayPicture() {
         BufferedImage img = image;
         ImageIcon icon = new ImageIcon(img);
         JButton button = new JButton(icon);
         button.addActionListener(e -> {
-            panel.remove(button);
-            panel.add(displayInfo());
-            panel.validate();
+            mainPanel.remove(button);
+            mainPanel.add(getDisplayInfo());
+            mainPanel.validate();
         });
         button.setBorderPainted(false);
         button.setFocusPainted(false);
@@ -44,9 +45,8 @@ public class Movie extends Media{
         return button;
     }
 
-    private JPanel displayInfo() {
+    private JPanel getDisplayInfo() {
         JPanel informationPanel = new JPanel();
-        informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.PAGE_AXIS));
         JLabel titleLabel = new JLabel(title);
         JLabel yearOfReleaseLabel = new JLabel("Udgivelses år: " + year);
         JLabel ratingLabel = new JLabel("Bedømmelse: " + rating);
@@ -56,42 +56,45 @@ public class Movie extends Media{
         JButton removeFromFavoritesButton = new JButton("Fjern fra favoritter");
         JButton returnButton = new JButton("Tilbage");
 
+        informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.PAGE_AXIS));
+
         informationPanel.add(titleLabel);
         informationPanel.add(yearOfReleaseLabel);
         informationPanel.add(ratingLabel);
         informationPanel.add(genreLabel);
         informationPanel.add(watchButton);
-        if(state.IsFavorite(id)) {
+
+        if(state.isFavorite(id)) {
             informationPanel.add(removeFromFavoritesButton);
         } else { 
             informationPanel.add(addToFavoritesButton);
         }
+
         informationPanel.add(returnButton);
        
         returnButton.addActionListener(e -> {
-            panel.remove(informationPanel);
-            panel.add(displayPicture());
-            panel.validate();
+            mainPanel.remove(informationPanel);
+            mainPanel.add(getDisplayPicture());
+            mainPanel.validate();
         });
 
         addToFavoritesButton.addActionListener(e -> {
-            state.AddFavorite(id);
+            state.addFavorite(id);
 
-            panel.remove(informationPanel);
-            panel.add(displayPicture());
-            panel.validate();
+            mainPanel.remove(informationPanel);
+            mainPanel.add(getDisplayPicture());
+            mainPanel.validate();
         });
 
         watchButton.addActionListener(e -> {
-            state.AddWatched(id);
+            state.addWatched(id);
         });
 
         removeFromFavoritesButton.addActionListener(e -> {
-            state.RemoveFavorite(id);
-            
-            panel.remove(informationPanel);
-            panel.add(displayPicture());
-            panel.validate();
+            state.removeFavorite(id);
+            mainPanel.remove(informationPanel);
+            mainPanel.add(getDisplayPicture());
+            mainPanel.validate();
         });
 
         return informationPanel;

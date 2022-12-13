@@ -2,7 +2,6 @@ package Domain;
 
 import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.*;
 
 import Data.PictureDataAccess;
@@ -44,48 +43,48 @@ public class State implements StateInterface {
         TextDataAccessInterface tLoader = new TextDataAccess();
         PictureDataAccessInterface pLoader = new PictureDataAccess(); 
 
-        Boolean moviesRes = InitMediaType(tLoader.load("film"), pLoader);
-        Boolean seriesRes = InitMediaType(tLoader.load("serier"), pLoader);
+        Boolean moviesRes = initMediaType(tLoader.load("film"), pLoader);
+        Boolean seriesRes = initMediaType(tLoader.load("serier"), pLoader);
         Boolean usersRes = initUsers(tLoader.load("users"));    
 
         
-        for(Media m : medias) {
-            String[] titleWords = cleanSearchString(m.title);
-            for(String s : titleWords) {
+        for(Media media : medias) {
+            String[] titleWords = cleanSearchString(media.title);
+            for(String word : titleWords) {
                 
-                if(titleWordMap.containsKey(s)) { // faster than checking the list since its sorted
-                    titleWordMap.get(s).add(m); 
+                if(titleWordMap.containsKey(word)) { // faster than checking the list since its sorted
+                    titleWordMap.get(word).add(media); 
                 } else {
-                    titleWordList.add(s); 
+                    titleWordList.add(word); 
 
-                    List<Media> mList = new ArrayList<>(); 
-                    mList.add(m); 
+                    List<Media> mediaList = new ArrayList<>(); 
+                    mediaList.add(media); 
 
-                    titleWordMap.put(s, mList); 
+                    titleWordMap.put(word, mediaList); 
                 }
             }
             
-            String[] years = m.getYear().trim().split("-"); 
+            String[] years = media.getYear().trim().split("-"); 
             
-            for(String s : years) {
-                s = s.trim();
-                int year = Integer.parseInt(s); 
+            for(String currentYear : years) {
+                currentYear = currentYear.trim();
+                int year = Integer.parseInt(currentYear); 
                 if(yearMap.containsKey(year)) {
-                    yearMap.get(year).add(m); 
+                    yearMap.get(year).add(media); 
                 } else {
-                    List<Media> mList = new ArrayList<>(); 
-                    mList.add(m);
-                    yearMap.put(year, mList);
+                    List<Media> mediaList = new ArrayList<>(); 
+                    mediaList.add(media);
+                    yearMap.put(year, mediaList);
                 }
             }
 
-            List<String> mediaGenres = m.getGenre(); 
-            for (String g : mediaGenres) {
-                if(genreMap.containsKey(g)) { genreMap.get(g).add(m); }
+            List<String> mediaGenres = media.getGenre(); 
+            for (String genre : mediaGenres) {
+                if(genreMap.containsKey(genre)) { genreMap.get(genre).add(media); }
                 else { 
                     List<Media> mediaList = new ArrayList<>(); 
-                    mediaList.add(m); 
-                    genreMap.put(g.trim(), mediaList);
+                    mediaList.add(media); 
+                    genreMap.put(genre.trim(), mediaList);
                 }
             }
         }
@@ -125,38 +124,39 @@ public class State implements StateInterface {
     public List<? extends Displayable> search(String input) {
         Set<Media> resSet = new HashSet<>(); 
         String[] words; 
+
         try {
             words = cleanSearchString(input); 
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null; 
         }
+
         List<String> titleMatches = new ArrayList<>();
         int matchCounter = 0; 
-        for(String s : words ) {
+        for(String word : words ) {
             List<String> match; 
-            if(s.matches("\\d+")) {
-                int year = Integer.parseInt(s.trim()); 
+            if(word.matches("\\d+")) {
+                int year = Integer.parseInt(word.trim()); 
                 if(yearMap.containsKey(year)) {
-                    for(Media m : yearMap.get(year)) { resSet.add(m); matchCounter++; }
+                    for(Media media : yearMap.get(year)) { resSet.add(media); matchCounter++; }
                 }
             } else {
-                match = containsSearch(s, titleWordList); 
+                match = containsSearch(word, titleWordList); 
                 if(match == null) { continue; }
                 titleMatches.addAll(match);
             }
-            
         }
+
         if(matchCounter + titleMatches.size() == 0) { return null; } 
         
         Collections.sort(titleMatches); 
 
         for(String s : titleMatches) {
-            for (Media m : titleWordMap.get(s)) {
-                resSet.add(m);
+            for (Media media : titleWordMap.get(s)) {
+                resSet.add(media);
             }
         }
-
 
         return new ArrayList<Media>(resSet); 
     }
@@ -164,6 +164,7 @@ public class State implements StateInterface {
     private List<String> containsSearch(String input, List<String> prevList) {
         int midIndex = prevList.size() / 2; 
         String midVal = prevList.get(midIndex); 
+
         if(midVal.contains(input)) {
             int upper, lower; 
             upper = lower = midIndex; 
@@ -192,14 +193,14 @@ public class State implements StateInterface {
         }
     }
 
-    private String[] cleanSearchString(String in) {
-        in = " " + in + " "; // to make sure all seperate words have spaces in front and back 
-        in = in.toUpperCase(); 
-        in = in.replaceAll(" ", "  "); // double space so we can remove double invalids
+    private String[] cleanSearchString(String input) {
+        input = " " + input + " "; // to make sure all seperate words have spaces in front and back 
+        input = input.toUpperCase(); 
+        input = input.replaceAll(" ", "  "); // double space so we can remove double invalids
         // Remove common words with no real meaning
-        in = in.replaceAll(" THE | A | I | AN | YOU | OF | AND | IN | TO | WE |'S| IT'S | IT |,|\\.|-| ALL |&|;", " ");
-        in = in.trim(); 
-        String[] out = in.split(" +"); 
+        input = input.replaceAll(" THE | A | I | AN | YOU | OF | AND | IN | TO | WE |'S| IT'S | IT |,|\\.|-| ALL |&|;", " ");
+        input = input.trim(); 
+        String[] out = input.split(" +"); 
         for(String s : out) {
             s = s.trim();
             if(s.isEmpty()) { throw new InputMismatchException("invalid input: " + s + " in cleanSearchString"); }
@@ -207,27 +208,27 @@ public class State implements StateInterface {
         return out; 
     }
 
-    public Boolean IsFavorite(int movieID) {
+    public Boolean isFavorite(int movieID) {
         return users.get(curUserID).getFavoriteList().contains(movieID);
     }
 
-    public Boolean IsFavorite(int movieID, int usrID) {
+    public Boolean isFavorite(int movieID, int usrID) {
         return users.get(usrID).getFavoriteList().contains(movieID);
     }
 
-    public void RemoveFavorite(int movieID) {
-        users.get(curUserID).RemoveFavorite(movieID);
+    public void removeFavorite(int movieID) {
+        users.get(curUserID).removeFavorite(movieID);
     }
 
-    public void RemoveFavorite(int movieID, int usrID) {
-        users.get(usrID).RemoveFavorite(movieID);
+    public void removeFavorite(int movieID, int usrID) {
+        users.get(usrID).removeFavorite(movieID);
     }
 
-    public void AddUser(String name, int age, String gender) {
+    public void addUser(String name, int age, String gender) {
         users.add(new User(name, age, gender));
     }
 
-    public Boolean SetCurUser(int userID) {
+    public Boolean setCurUser(int userID) {
         try {
             users.get(userID); 
         } catch (IndexOutOfBoundsException e) {
@@ -238,36 +239,36 @@ public class State implements StateInterface {
         return true; 
     }
 
-    public void AddFavorite(int movieID) {
+    public void addFavorite(int movieID) {
         try {
-            users.get(curUserID).AddFavorite(movieID);
+            users.get(curUserID).addFavorite(movieID);
         } catch (IndexOutOfBoundsException e) {
 
             System.out.println("Tried to add a favorite for an invalid current user: " + curUserID);
         }
     }
 
-    public void AddFavorite(int movieID, int userID) {
+    public void addFavorite(int movieID, int userID) {
         try {
-            users.get(userID).AddFavorite(movieID);
+            users.get(userID).addFavorite(movieID);
         } catch (IndexOutOfBoundsException e) {
 
             System.out.println("Tried to add a favorite for an invalid user: " + userID);
         }
     }
 
-    public void AddWatched(int movieID) {
+    public void addWatched(int movieID) {
         try {
-            users.get(curUserID).AddWHistory(movieID);
+            users.get(curUserID).addWHistory(movieID);
         } catch (IndexOutOfBoundsException e) {
 
             System.out.println("Tried to add watched for an invalid current user: " + curUserID);
         }
     }
 
-    public void AddWatched(int movieID, int userID) {
+    public void addWatched(int movieID, int userID) {
         try {
-            users.get(userID).AddWHistory(movieID);
+            users.get(userID).addWHistory(movieID);
         } catch (IndexOutOfBoundsException e) {
 
             System.out.println("Tried to add watched for an invalid user: " + userID);
@@ -278,10 +279,10 @@ public class State implements StateInterface {
     protected void finalize() throws Throwable 
     {
         System.out.println("yo");
-        WriteUsers(); 
+        writeUsers(); 
     }
 
-    public void WriteUsers() {
+    public void writeUsers() {
         TextDataAccessInterface writer = new TextDataAccess(); 
         List<String> output = new ArrayList<>(); 
         for (User user : users) {
@@ -302,10 +303,10 @@ public class State implements StateInterface {
             line += ";";
             output.add(line);
         }
-        writer.Write(output, "users");
+        writer.write(output, "users");
     }
 
-    private Boolean InitMediaType(List<String> media, PictureDataAccessInterface pLoader) {
+    private Boolean initMediaType(List<String> media, PictureDataAccessInterface pLoader) {
 
         for (String s : media) {
             s = s.trim(); 
@@ -313,7 +314,7 @@ public class State implements StateInterface {
 
             if(fields.length < 4 || fields.length > 5) { throw new IllegalArgumentException("Invalid lines in media: " + s); }
 
-            BufferedImage image = pLoader.Load(fields[0]); 
+            BufferedImage image = pLoader.load(fields[0]); 
 
             String[] genresArr = fields[2].split(", ");
             genresArr[0] = genresArr[0].substring(1);
@@ -362,14 +363,14 @@ public class State implements StateInterface {
             String[] watched = fields[3].split(","); 
             if(watched.length > 1) { // split just returns the same string if no matches, and its concievable that a user has no watched or favorites
                 for(String w : watched) {
-                    users.get(users.size() - 1).AddWHistory(Integer.parseInt(w.trim()));
+                    users.get(users.size() - 1).addWHistory(Integer.parseInt(w.trim()));
                 }
             }
 
             String[] favorites = fields[4].split(","); 
             if(favorites.length > 1) {
-                for(String f : favorites) {
-                    users.get(users.size() - 1).AddFavorite(Integer.parseInt(f.trim()));
+                for(String favorite : favorites) {
+                    users.get(users.size() - 1).addFavorite(Integer.parseInt(favorite.trim()));
                 }
             }
         }

@@ -22,8 +22,8 @@ public class User implements UserInterface {
     public String getGender() { return gender; }
     public Set<Integer> getWatchHistory() { return watchHistory; }
     public Set<Integer> getFavoriteList() { return favoriteList; }
-    public void AddFavorite(int favoriteID) { favoriteList.add(favoriteID); }
-    public void RemoveFavorite(int favoriteID) { favoriteList.remove((Object)favoriteID); } // need to cast to object otherwise it sees the int as an index
-    public void AddWHistory(int watchedID) { watchHistory.add(watchedID); }
+    public void addFavorite(int favoriteID) { favoriteList.add(favoriteID); }
+    public void removeFavorite(int favoriteID) { favoriteList.remove((Object)favoriteID); } // need to cast to object otherwise it sees the int as an index
+    public void addWHistory(int watchedID) { watchHistory.add(watchedID); }
 
 }

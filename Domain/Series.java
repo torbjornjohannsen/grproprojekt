@@ -1,4 +1,5 @@
 package Domain;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,18 +31,18 @@ public class Series extends Media{
         panel = new JPanel();
         panel.setLayout(new GridLayout());
             
-            panel.add(displayPicture());
+            panel.add(getDisplayPicture());
 
         return panel;
     }
 
-    private JButton displayPicture() {
+    private JButton getDisplayPicture() {
         BufferedImage img = image;
         ImageIcon icon = new ImageIcon(img);
         JButton button = new JButton(icon);
         button.addActionListener(e -> {
             panel.remove(button);
-            panel.add(displayInfo());
+            panel.add(getDisplayInfo());
             panel.validate();
         });
         button.setBorderPainted(false);
@@ -50,7 +51,7 @@ public class Series extends Media{
         return button;
     }
 
-    private JPanel displayInfo() {
+    private JPanel getDisplayInfo() {
         JPanel informationPanel = new JPanel();
         informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.PAGE_AXIS));
         JLabel titleLabel = new JLabel(title);
@@ -73,16 +74,16 @@ public class Series extends Media{
        
         returnButton.addActionListener(e -> {
             panel.remove(informationPanel);
-            panel.add(displayPicture());
+            panel.add(getDisplayPicture());
             panel.validate();
         });
 
         addToFavoritesButton.addActionListener(e -> {
-            state.AddFavorite(id);
+            state.addFavorite(id);
         });
 
         watchButton.addActionListener(e -> {
-            state.AddWatched(id);
+            state.addWatched(id);
         });
         
         return informationPanel;
@@ -100,11 +101,11 @@ public class Series extends Media{
 
     private String[] getSeasonsAsStringArray() {
         String[] seasonsAsStringArray = new String[seasons.size()];
-        int counter = 0;
-
+        
+        int elementInMapCounter = 0;
         for(Map.Entry<Integer, Integer> entry : seasons.entrySet()) {
-            seasonsAsStringArray[counter] = "" + entry.getKey() + ": " + entry.getValue();
-            counter++;
+            seasonsAsStringArray[elementInMapCounter] = "" + entry.getKey() + ": " + entry.getValue();
+            elementInMapCounter++;
         }
 
         return seasonsAsStringArray;

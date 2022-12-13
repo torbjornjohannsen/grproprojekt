@@ -1,4 +1,5 @@
 package Domain;
+
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 public abstract class Media implements Displayable {
     int id;
     String title;
-    String year; // since series have ranges of years, can be 1990-1991 or 2011- for instance, all we do is print them so string is fine
+    String year;
     List<String> genre;
     double rating;
     BufferedImage image;
@@ -33,6 +34,7 @@ public abstract class Media implements Displayable {
 
     public JPanel display() {
         JPanel panel = new JPanel();
+
         panel.setBackground(Color.GRAY);
 
         return panel;

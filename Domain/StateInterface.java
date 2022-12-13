@@ -13,17 +13,17 @@ public interface StateInterface {
     public BufferedImage getMediaPicture(int id);
     public List<? extends Displayable> getGenreList(String genre);   
     public List<? extends Displayable> search(String input);   
-    public Boolean SetCurUser(int userID); 
-    public void AddUser(String name, int age, String gender); 
-    public void AddFavorite(int movieID); 
-    public void AddFavorite(int movieID, int userID); 
-    public void RemoveFavorite(int movieID);
-    public void RemoveFavorite(int movieID, int usrID);
-    public Boolean IsFavorite(int movieID); 
-    public Boolean IsFavorite(int movieID, int usrID);
-    public void AddWatched(int movieID); 
-    public void AddWatched(int movieID, int userID);
-    public void WriteUsers(); 
+    public Boolean setCurUser(int userID); 
+    public void addUser(String name, int age, String gender); 
+    public void addFavorite(int movieID); 
+    public void addFavorite(int movieID, int userID); 
+    public void removeFavorite(int movieID);
+    public void removeFavorite(int movieID, int usrID);
+    public Boolean isFavorite(int movieID); 
+    public Boolean isFavorite(int movieID, int usrID);
+    public void addWatched(int movieID); 
+    public void addWatched(int movieID, int userID);
+    public void writeUsers(); 
     public Set<String> getGenres(); 
     public UserInterface getUser();
 

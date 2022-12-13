@@ -3,7 +3,6 @@ package Data;
 import java.io.*;
 import java.util.*;
 
-
 public class TextDataAccess implements Data.TextDataAccessInterface {
 
     public List<String> load(String path) {
@@ -27,8 +26,7 @@ public class TextDataAccess implements Data.TextDataAccessInterface {
         return dataSepereatedIntoStrings;
     }
 
-    public void Write(List<String> input, String path) {
-
+    public void write(List<String> input, String path) {
         try {
             FileWriter outputFile = new FileWriter("./MedieData/" + path + ".txt"); 
             for (String string : input) {

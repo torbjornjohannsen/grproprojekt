@@ -33,7 +33,6 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-
         frame.add(scrPane, BorderLayout.CENTER);
         frame.validate();
 
@@ -50,11 +49,9 @@ public class GUI {
     }
 
     private static JPanel makeMenuBar() {
-
-
-        JPanel menuBar = new JPanel();
-        menuBar.setLayout(new GridLayout(1, 5));
-        menuBar.setSize(10, 10);
+        JPanel menuBarPanel = new JPanel();
+        menuBarPanel.setLayout(new GridLayout(1, 5));
+        menuBarPanel.setSize(10, 10);
 
         JButton homeButton = new JButton("Hjem");
         homeButton.addActionListener(e -> {
@@ -104,27 +101,28 @@ public class GUI {
             makeUserView();
         });
 
-        menuBar.add(homeButton);
-        menuBar.add(moviesButton);
-        menuBar.add(seriesButton);
-        menuBar.add(searchBar);
-        menuBar.add(searchButton);
-        menuBar.add(comboBox);
-        menuBar.add(genreButton);
-        menuBar.add(userButton);
+        menuBarPanel.add(homeButton);
+        menuBarPanel.add(moviesButton);
+        menuBarPanel.add(seriesButton);
+        menuBarPanel.add(searchBar);
+        menuBarPanel.add(searchButton);
+        menuBarPanel.add(comboBox);
+        menuBarPanel.add(genreButton);
+        menuBarPanel.add(userButton);
 
-        return menuBar;
+        return menuBarPanel;
     }
 
-    private static void makeView(List<? extends Displayable> contents, StateInterface s) {
+    private static void makeView(List<? extends Displayable> content, StateInterface s) {
         int elementsInCol = 1512 / 156;
-        int elementsInRow = contents.size() / elementsInCol + 1;
+        int elementsInRow = content.size() / elementsInCol + 1;
         contentPanel.removeAll();
-        for(Displayable element : contents) {
+
+        for(Displayable element : content) {
             contentPanel.add(element.display(state));
         }
 
-        if(contents.size() < elementsInCol) {
+        if(content.size() < elementsInCol) {
             contentPanel.setLayout(new FlowLayout());
         } else {
             contentPanel.setLayout(new GridLayout(elementsInRow, elementsInCol));
@@ -136,6 +134,7 @@ public class GUI {
     private static void makeUserView() {
         contentPanel.removeAll();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
+        
         UserInterface user = state.getUser();
         JLabel userName = new JLabel("Hej " + user.getName());
         JLabel userAge = new JLabel("Alder: " + user.getAge());

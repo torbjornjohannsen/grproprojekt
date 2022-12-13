@@ -1,6 +1,5 @@
 import Domain.*;
 import Data.*; 
-import Presentation.*;
 
 import java.awt.image.*;
 import java.util.*;
@@ -20,7 +19,7 @@ public class Test {
 
         System.out.println("Film list size: " + res.size());
 
-        loader.Write(res.subList(0, 10), "test");
+        loader.write(res.subList(0, 10), "test");
         System.out.println("");
 
     }
@@ -30,9 +29,9 @@ public class Test {
         PictureDataAccessInterface loader = new PictureDataAccess(); 
 
         // Valid file name, supposed to just load it 
-        BufferedImage validImage = loader.Load("24"); 
+        BufferedImage validImage = loader.load("24"); 
         // Invalid file name, supposed to say its invalid then load the default file 
-        BufferedImage invalidImage = loader.Load("invalid file name"); 
+        BufferedImage invalidImage = loader.load("invalid file name"); 
 
         System.out.println("Valid image dimensions: " + validImage.getWidth() + ", " + validImage.getHeight());
         System.out.println("Invalid image dimensions: " + invalidImage.getWidth() + ", " + invalidImage.getHeight());
@@ -65,16 +64,16 @@ public class Test {
         }
         
         // expected to work fine
-        state.AddFavorite(5);
-        state.AddFavorite(69, 0);
-        state.AddWatched(5);
-        state.AddWatched(69, 0);
+        state.addFavorite(5);
+        state.addFavorite(69, 0);
+        state.addWatched(5);
+        state.addWatched(69, 0);
 
         // expected to fail
-        state.AddFavorite(2, -5);
-        state.AddWatched(2, -5);
+        state.addFavorite(2, -5);
+        state.addWatched(2, -5);
 
-        state.WriteUsers();
+        state.writeUsers();
 
         state.search("lord rings");
         System.out.println("");
