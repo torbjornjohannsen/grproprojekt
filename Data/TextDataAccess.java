@@ -11,19 +11,18 @@ public class TextDataAccess implements Data.TextDataAccessInterface {
         
         
         try {
-            // From https://stackoverflow.com/a/9282017 
-            BufferedReader bufRdr  = new BufferedReader(
-            new InputStreamReader(new FileInputStream(inputFile), "UTF-8"));
-            String line;
+            // From https://stackoverflow.com/a/27473547
+            Scanner sc = new Scanner(inputFile, "ISO-8859-1");
 
-            while((line = bufRdr.readLine()) != null) {
-                dataSepereatedIntoStrings.add(line);
+            while(sc.hasNextLine()) {
+                dataSepereatedIntoStrings.add(sc.nextLine());
             }
             
-            bufRdr.close();
+            sc.close();
 
-        } catch(Exception fnfe) {
+        } catch(FileNotFoundException fnfe) {
             System.out.println(fnfe.getMessage());
+            System.exit(-1);
         }
 
         return dataSepereatedIntoStrings;

@@ -62,6 +62,7 @@ public class Series extends Media{
         JLabel genreLabel = new JLabel(getGenreAsOneString());
         JButton watchButton = new JButton("Se");
         JButton addToFavoritesButton = new JButton("Tilføj til favoritter");
+        JButton removeFromFavoritesButton = new JButton("Fjern fra favoritter");
         JButton returnButton = new JButton("Tilbage");
         JComboBox<String> seasonSelector = new JComboBox<>(getSeasonsAsStringArray());
 
@@ -71,7 +72,11 @@ public class Series extends Media{
         informationPanel.add(genreLabel);
         informationPanel.add(seasonSelector);
         informationPanel.add(watchButton);
-        informationPanel.add(addToFavoritesButton);
+        if(state.isFavorite(id)) {
+            informationPanel.add(removeFromFavoritesButton);
+        } else { 
+            informationPanel.add(addToFavoritesButton);
+        }
         informationPanel.add(returnButton);
        
         returnButton.addActionListener(e -> {
@@ -82,6 +87,17 @@ public class Series extends Media{
 
         addToFavoritesButton.addActionListener(e -> {
             state.addFavorite(id);
+
+            panel.remove(informationPanel);
+            panel.add(getDisplayPicture());
+            panel.validate();
+        });
+
+        removeFromFavoritesButton.addActionListener(e -> {
+            state.removeFavorite(id);
+            panel.remove(informationPanel);
+            panel.add(getDisplayPicture());
+            panel.validate();
         });
 
         watchButton.addActionListener(e -> {

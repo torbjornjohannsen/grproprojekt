@@ -88,15 +88,15 @@ public class Movie extends Media{
             mainPanel.validate();
         });
 
-        watchButton.addActionListener(e -> {
-            state.addWatched(id);
-        });
-
         removeFromFavoritesButton.addActionListener(e -> {
             state.removeFavorite(id);
             mainPanel.remove(informationPanel);
             mainPanel.add(getDisplayPicture());
             mainPanel.validate();
+        });
+
+        watchButton.addActionListener(e -> {
+            state.addWatched(id);
         });
 
         return informationPanel;

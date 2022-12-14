@@ -48,6 +48,7 @@ public class State implements StateInterface {
         Boolean seriesRes = initMediaType(tLoader.load("serier"), sPLoader);
         Boolean usersRes = initUsers(tLoader.load("users"));    
 
+        if(!(moviesRes && seriesRes && usersRes)) { System.out.println("Invalid data"); System.exit(-1); }
         
         for(Media media : medias) {
             String[] titleWords = cleanSearchString(media.title);
@@ -314,12 +315,12 @@ public class State implements StateInterface {
     }
 
     private Boolean initMediaType(List<String> media, PictureDataAccessInterface pLoader) {
-
+        Boolean result = false; 
         for (String s : media) {
             s = s.trim(); 
             String[] fields = s.split(";"); 
 
-            if(fields.length < 4 || fields.length > 5) { throw new IllegalArgumentException("Invalid lines in media: " + s); }
+            if(fields.length < 4 || fields.length > 5) { System.out.println("Invalid lines in media for: " + s); continue; }
 
             BufferedImage image = pLoader.load(fields[0]); 
 
@@ -334,7 +335,7 @@ public class State implements StateInterface {
                 rating = numFormat.parse(fields[3]).doubleValue();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                return false; 
+                continue;
             }
 
             if(fields.length == 4 ) // its a movie
@@ -345,25 +346,32 @@ public class State implements StateInterface {
             } else { // its a series 
                 String[] seasonsArr = fields[4].split(","); 
                 Map<Integer, Integer> seasonMap = new HashMap<>(); 
-                for(String season : seasonsArr)
-                {
-                    String[] seasonS = season.split("-"); 
-                    seasonMap.put(Integer.parseInt(seasonS[0].trim()), Integer.parseInt(seasonS[1].trim()));
+                try {
+                    for(String season : seasonsArr)
+                    {
+                        String[] seasonS = season.split("-"); 
+                        seasonMap.put(Integer.parseInt(seasonS[0].trim()), Integer.parseInt(seasonS[1].trim()));
+                    }
+                } catch(Exception e) {
+                    System.out.println(e.getMessage());
+                    continue;
                 }
                 Series serie = new Series(medias.size(), fields[0], fields[1], genres, rating, image, seasonMap);
                 series.add(serie); 
                 medias.add(serie); 
             }
+            result = true; 
         }
-        return true; 
+        return result; 
     }
 
     private Boolean initUsers(List<String> userList) {
+        Boolean res = false; 
         for (String s : userList) {
             s = s.trim(); 
             String[] fields = s.split(";"); 
 
-            if(fields.length != 5) { throw new IllegalArgumentException("Invalid user-string"); }
+            if(fields.length != 5) { System.out.println("Invalid user-string: " + s); continue; }
 
             users.add(new User(fields[0], Integer.parseInt(fields[1].trim()), fields[2].trim()));
 
@@ -380,8 +388,9 @@ public class State implements StateInterface {
                     users.get(users.size() - 1).addFavorite(Integer.parseInt(favorite.trim()));
                 }
             }
+            res = true; 
         }
-        return true; 
+        return res; 
     }
 
     public Set<String> getGenres() {

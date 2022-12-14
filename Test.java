@@ -2,7 +2,6 @@ import Domain.*;
 import Data.*; 
 
 import java.awt.image.*;
-import java.time.temporal.Temporal;
 import java.util.*;
 
 
@@ -15,6 +14,9 @@ public class Test {
         ultResult = ultResult && testSearch();
         ultResult = ultResult && testUser();
         System.out.println("So final test result: " + ultResult);
+
+        TestInvalidFile(); // This kills the program
+        System.out.println("This should never be reached");
     }
 
     private static Boolean testTextDataAccess() {
@@ -60,12 +62,12 @@ public class Test {
         state.init();
 
         List<? extends Displayable> list1 = state.getDisplayables();
-        temp = list1.size() == 200; 
+        temp = list1.size() == 199; 
         allTests = allTests && temp; 
         System.out.println("Size of all Displayable: " + temp);
 
         List<? extends Displayable> list2 = state.getSeriesDisplayables();
-        temp = list2.size() == 100; 
+        temp = list2.size() == 99; 
         allTests = allTests && temp; 
         System.out.println("Size of all Series Displayables: " + temp);
 
@@ -209,7 +211,10 @@ public class Test {
         System.out.println("Final result: " + result + "\n\n");
         return result; 
     }
-
-    //lav en fjerde test hvor en ny tekstfil indeholder cursed serier, der skal give korrekt error handling
-
+    
+    private static void TestInvalidFile() {
+        TextDataAccessInterface t = new TextDataAccess();
+        
+        t.load("tototototototqoweq");
+    }
 }
