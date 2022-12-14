@@ -40,7 +40,6 @@ public class State implements StateInterface {
     }
 
     public Boolean init() {
-        System.out.println("ääääääääääääääääääääääääääää cringe");
         TextDataAccessInterface tLoader = new TextDataAccess();
         PictureDataAccessInterface sPLoader = new PictureDataAccess("serieforsider"); 
         PictureDataAccessInterface mPLoader = new PictureDataAccess("filmplakater"); 
