@@ -2,7 +2,6 @@ package Data;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.*;
 
 public class TextDataAccess implements Data.TextDataAccessInterface {
 
