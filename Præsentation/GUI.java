@@ -1,4 +1,4 @@
-package Presentation;
+package Præsentation;
 
 import java.util.*;
 
@@ -87,7 +87,7 @@ public class GUI {
 
         Set<String> genreSet = state.getGenres(); 
         
-        JComboBox comboBox = new JComboBox<>(genreSet.toArray());
+        JComboBox<> comboBox = new JComboBox<>(genreSet.toArray());
         comboBox.setEditable(true);
 
         JButton genreButton = new JButton("Søg efter genre");

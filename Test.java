@@ -4,15 +4,18 @@ import Data.*;
 import java.awt.image.*;
 import java.util.*;
 
+
 public class Test {
     public static void main(String[] args) {
-        TestPictureDataAccess();
-        TestTextDataAccess(); 
-        TestState();
+        testPictureDataAccess();
+        testTextDataAccess(); 
+        testMedia();
+        testSearch();
+        testUser();
     }
 
-    private static void TestTextDataAccess() {
-        System.out.println("TestTextDataAcess: ");
+    private static void testTextDataAccess() {
+        System.out.println("testTextDataAcess: ");
         TextDataAccessInterface loader = new TextDataAccess(); 
 
         List<String> res = loader.load("film"); 
@@ -24,8 +27,8 @@ public class Test {
 
     }
 
-    private static void TestPictureDataAccess() {
-        System.out.println("TestPictureDataAcess: ");
+    private static void testPictureDataAccess() {
+        System.out.println("testPictureDataAcess: ");
         PictureDataAccessInterface loader = new PictureDataAccess(); 
 
         // Valid file name, supposed to just load it 
@@ -38,30 +41,88 @@ public class Test {
         System.out.println("");
     }
 
-    private static void TestState() {
-        System.out.println("TestState: ");
+    private static void testMedia() {
+        System.out.println("testMedia: ");
 
         StateInterface state = new State(); 
-
         state.init();
 
         List<? extends Displayable> list1 = state.getDisplayables();
-
         System.out.println("Size: " + list1.size());
 
-        List<? extends Displayable> list2 = state.getGenreList("Biography");
-        
-        //Expecting drama media
-        for (Displayable element : list2) {
-            System.out.println(state.getMediaInformation(element.getId()));
-        }
-        
-        List<? extends Displayable> list3 = state.search("2017");
+        List<? extends Displayable> list2 = state.getSeriesDisplayables();
+        System.out.println("Size: " + list2.size());
 
-        //Expecting media from 2017
-        for (Displayable element : list3) {
-            System.out.println(state.getMediaInformation(element.getId()));
+        List<? extends Displayable> list3 = state.getMovieDisplayables();
+        System.out.println("Size: " + list3.size());
+
+        System.out.println("");
+    }
+
+    private static void testSearch() {
+        System.out.println("testSearch: ");
+
+        StateInterface state = new State(); 
+        state.init();
+
+        try {
+            List<? extends Displayable> list1 = state.getGenreList("Biography");
+        
+            //Expecting biography media
+            for (Displayable element : list1) {
+                System.out.println(element.getTitle());
+            }
+    
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+        
+        
+        try {
+            List<? extends Displayable> list2 = state.getGenreList("Silent film");
+
+            //Expecting no media
+            for (Displayable element : list2) {
+                System.out.println(element.getTitle());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+        try {
+            List<? extends Displayable> list3 = state.search("1951");
+
+            //Expecting media from 2017
+            for (Displayable element : list3) {
+                System.out.println(element.getTitle());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+
+        try {
+            List<? extends Displayable> list4 = state.search("lord rings");
+
+            //Expecting no media
+            for (Displayable element : list4) {
+                System.out.println(element.getTitle());
+            }
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+    
+        
+        System.out.println("");
+
+    }
+
+    private static void testUser() {
+        System.out.println("testUser: ");
+
+        StateInterface state = new State(); 
+        state.init();
         
         // expected to work fine
         state.addFavorite(5);
@@ -74,10 +135,7 @@ public class Test {
         state.addWatched(2, -5);
 
         state.writeUsers();
-
-        state.search("lord rings");
         System.out.println("");
-
     }
 
     //lav en fjerde test hvor en ny tekstfil indeholder cursed serier, der skal give korrekt error handling

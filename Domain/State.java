@@ -117,11 +117,15 @@ public class State implements StateInterface {
         return displayList; 
     }
 
-    public List<? extends Displayable> getGenreList(String genre) {
-        return genreMap.get(genre); 
+    public List<? extends Displayable> getGenreList(String genre) throws Exception {
+        List<? extends Displayable> result = genreMap.get(genre); 
+
+        if(result == null) throw new Exception("Result must be non-empty!");
+
+        return result;
     }  
 
-    public List<? extends Displayable> search(String input) {
+    public List<? extends Displayable> search(String input) throws Exception {
         Set<Media> resSet = new HashSet<>(); 
         String[] words; 
 
@@ -278,7 +282,6 @@ public class State implements StateInterface {
     @Override
     protected void finalize() throws Throwable 
     {
-        System.out.println("yo");
         writeUsers(); 
     }
 

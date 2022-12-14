@@ -11,8 +11,8 @@ public interface StateInterface {
     public List<? extends Displayable> getMovieDisplayables(); 
     public List<? extends Displayable> getSeriesDisplayables(); 
     public BufferedImage getMediaPicture(int id);
-    public List<? extends Displayable> getGenreList(String genre);   
-    public List<? extends Displayable> search(String input);   
+    public List<? extends Displayable> getGenreList(String genre) throws Exception;   
+    public List<? extends Displayable> search(String input) throws Exception;   
     public Boolean setCurUser(int userID); 
     public void addUser(String name, int age, String gender); 
     public void addFavorite(int movieID); 

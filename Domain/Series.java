@@ -61,7 +61,7 @@ public class Series extends Media{
         JButton watchButton = new JButton("Se");
         JButton addToFavoritesButton = new JButton("Tilføj til favoritter");
         JButton returnButton = new JButton("Tilbage");
-        JComboBox seasonSelector = new JComboBox<>(getSeasonsAsStringArray());
+        JComboBox<String> seasonSelector = new JComboBox<>(getSeasonsAsStringArray());
 
         informationPanel.add(titleLabel);
         informationPanel.add(yearOfReleaseLabel);
