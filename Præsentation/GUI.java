@@ -3,8 +3,6 @@ package Præsentation;
 import java.util.*;
 
 import javax.swing.*;
-import javax.swing.JComboBox;
-
 
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
@@ -15,7 +13,6 @@ import Domain.Displayable;
 import Domain.State;
 import Domain.StateInterface;
 import Domain.UserInterface;
-
 
 public class GUI {
 
@@ -90,7 +87,7 @@ public class GUI {
 
         Set<String> genreSet = state.getGenres(); 
         
-        JComboBox comboBox = new JComboBox(genreSet.toArray());
+        JComboBox comboBox = new JComboBox<>(genreSet.toArray());
         comboBox.setEditable(true);
 
         JButton genreButton = new JButton("Søg efter genre");

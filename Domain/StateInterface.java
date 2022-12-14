@@ -15,6 +15,7 @@ public interface StateInterface {
     public List<? extends Displayable> search(String input);   
     public Boolean setCurUser(int userID); 
     public void addUser(String name, int age, String gender); 
+    public void addUser(String name, int age, String gender, Boolean setCur);
     public void addFavorite(int movieID); 
     public void addFavorite(int movieID, int userID); 
     public void removeFavorite(int movieID);
@@ -26,6 +27,7 @@ public interface StateInterface {
     public void writeUsers(); 
     public Set<String> getGenres(); 
     public UserInterface getUser();
+    public int getCurUser(); 
 
 
 }

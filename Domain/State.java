@@ -121,6 +121,8 @@ public class State implements StateInterface {
     public List<? extends Displayable> getGenreList(String genre) {
         return genreMap.get(genre); 
     }  
+    
+    public int getCurUser() { return curUserID; }
 
     public List<? extends Displayable> search(String input) {
         Set<Media> resSet = new HashSet<>(); 
@@ -227,6 +229,11 @@ public class State implements StateInterface {
 
     public void addUser(String name, int age, String gender) {
         users.add(new User(name, age, gender));
+    }
+
+    public void addUser(String name, int age, String gender, Boolean setCur) {
+        users.add(new User(name, age, gender));
+        if(setCur) { curUserID = users.size() - 1; }
     }
 
     public Boolean setCurUser(int userID) {

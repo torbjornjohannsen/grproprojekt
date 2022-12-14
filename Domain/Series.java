@@ -36,6 +36,8 @@ public class Series extends Media{
         return panel;
     }
 
+    public String getYear() { return year; }
+
     private JButton getDisplayPicture() {
         BufferedImage img = image;
         ImageIcon icon = new ImageIcon(img);

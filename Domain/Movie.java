@@ -16,6 +16,8 @@ public class Movie extends Media{
         super(id, title, year, genre, rating, image);
     }
 
+    public String getYear() { return year; }
+
     private JPanel mainPanel;
     private StateInterface state;
 
