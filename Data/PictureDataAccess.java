@@ -5,9 +5,13 @@ import java.io.*;
 import javax.imageio.*;
 
 public class PictureDataAccess implements PictureDataAccessInterface {
+    public PictureDataAccess(String folderPath) {
+        folder = "./MedieData/" + folderPath + "/";
+    }
+    private String folder; 
 
     public BufferedImage load(String imageName){
-        String path = "./MedieData/pictures/" + imageName + ".jpg";
+        String path = folder + imageName + ".jpg";
         BufferedImage image; 
 
         try {
@@ -16,7 +20,7 @@ public class PictureDataAccess implements PictureDataAccessInterface {
             try {
 
                 System.out.println("PictureDataAccess error: " + e.getMessage() + " For image: \"" +  imageName + "\"");
-                image = ImageIO.read(new File("./MedieData/pictures/default.png"));
+                image = ImageIO.read(new File("./MedieData/default.png"));
             } catch (IOException ex) {
                 System.out.println("PictureDataAccess error: " + e.getMessage() + " For default");
                 return null; // really shouldnt ever happen but java autism freaks out if we dont do this since ImageIO.read throws an exception
