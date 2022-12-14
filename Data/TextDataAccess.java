@@ -2,6 +2,7 @@ package Data;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 public class TextDataAccess implements Data.TextDataAccessInterface {
 
@@ -9,15 +10,18 @@ public class TextDataAccess implements Data.TextDataAccessInterface {
         List<String> dataSepereatedIntoStrings = new ArrayList<String>();
         File inputFile = new File("./MedieData/" + path + ".txt");
         
+        
         try {
-            // Got this from https://stackoverflow.com/a/4323628 
-            Scanner sc = new Scanner(inputFile, "UTF-8");
+            // From https://stackoverflow.com/a/9282017 
+            BufferedReader bufRdr  = new BufferedReader(
+            new InputStreamReader(new FileInputStream(inputFile), "UTF-8"));
+            String line;
 
-            while(sc.hasNextLine()) {
-                dataSepereatedIntoStrings.add(sc.nextLine());
+            while((line = bufRdr.readLine()) != null) {
+                dataSepereatedIntoStrings.add(line);
             }
-
-            sc.close();
+            
+            bufRdr.close();
 
         } catch(Exception fnfe) {
             System.out.println(fnfe.getMessage());

@@ -18,23 +18,23 @@ public class Test {
         System.out.println("testTextDataAcess: ");
         TextDataAccessInterface loader = new TextDataAccess(); 
 
-        List<String> res = loader.load("film"); 
+        List<String> res = loader.load("test"); 
 
         System.out.println("Film list size: " + res.size());
 
-        loader.write(res.subList(0, 10), "test");
-        System.out.println("");
+        loader.write(res, "test");
+        System.out.println((int)"ä".charAt(0) + ":" + (int)res.get(0).charAt(0));
 
     }
 
     private static void testPictureDataAccess() {
         System.out.println("testPictureDataAcess: ");
-        PictureDataAccessInterface loader = new PictureDataAccess(); 
+        PictureDataAccessInterface sLoader = new PictureDataAccess("pictures"); 
 
         // Valid file name, supposed to just load it 
-        BufferedImage validImage = loader.load("24"); 
+        BufferedImage validImage = sLoader.load("24"); 
         // Invalid file name, supposed to say its invalid then load the default file 
-        BufferedImage invalidImage = loader.load("invalid file name"); 
+        BufferedImage invalidImage = sLoader.load("invalid file name"); 
 
         System.out.println("Valid image dimensions: " + validImage.getWidth() + ", " + validImage.getHeight());
         System.out.println("Invalid image dimensions: " + invalidImage.getWidth() + ", " + invalidImage.getHeight());

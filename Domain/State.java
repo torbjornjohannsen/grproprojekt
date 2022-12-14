@@ -40,11 +40,13 @@ public class State implements StateInterface {
     }
 
     public Boolean init() {
+        System.out.println("ääääääääääääääääääääääääääää cringe");
         TextDataAccessInterface tLoader = new TextDataAccess();
-        PictureDataAccessInterface pLoader = new PictureDataAccess(); 
+        PictureDataAccessInterface sPLoader = new PictureDataAccess("serieforsider"); 
+        PictureDataAccessInterface mPLoader = new PictureDataAccess("filmplakater"); 
 
-        Boolean moviesRes = initMediaType(tLoader.load("film"), pLoader);
-        Boolean seriesRes = initMediaType(tLoader.load("serier"), pLoader);
+        Boolean moviesRes = initMediaType(tLoader.load("film"), mPLoader);
+        Boolean seriesRes = initMediaType(tLoader.load("serier"), sPLoader);
         Boolean usersRes = initUsers(tLoader.load("users"));    
 
         
