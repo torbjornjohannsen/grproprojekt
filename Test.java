@@ -91,7 +91,7 @@ public class Test {
         try {
             List<? extends Displayable> list1 = state.getGenreList("Biography");
 
-            List<String> bioTitles = new ArrayList<>();
+            Set<String> bioTitles = new HashSet<>();
             bioTitles.add("I Claudius"); 
             bioTitles.add("Spartacus"); 
         
@@ -101,7 +101,7 @@ public class Test {
 
             //Expecting biography media
             for (int i = 0; i < bioTitles.size(); i++) {
-                temp = bioTitles.get(i).equals(list1.get(i).getTitle()); 
+                temp = bioTitles.contains(list1.get(i).getTitle()); 
                 System.out.println("Case: " + i + ": " + temp);
                 allTests = allTests && temp; 
             }
@@ -140,7 +140,7 @@ public class Test {
         try {
             List<? extends Displayable> list4 = state.search("lord rings sopranos");
 
-            List<String> searchRes = new ArrayList<>();
+            Set<String> searchRes = new HashSet<>();
             searchRes.add("The Sopranos");
             searchRes.add("Lord Of The Rings - The Return Of The King");  
 
@@ -150,7 +150,7 @@ public class Test {
 
             //Expecting no media
             for (int i = 0; i < searchRes.size(); i++) {
-                temp = searchRes.get(i).equals(list4.get(i).getTitle()); 
+                temp = searchRes.contains(list4.get(i).getTitle()); 
                 allTests = temp && allTests; 
                 System.out.println("Title match: " + temp);
             }
