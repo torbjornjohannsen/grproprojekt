@@ -126,6 +126,9 @@ public class Test {
         try {
             List<? extends Displayable> list3 = state.search("1951");
 
+            temp = list3.size() == 5; 
+            allTests = allTests && temp; 
+
             //Expecting media from 2017
             for (Displayable element : list3) {
                 temp = element.getYear().contains("1951"); 
@@ -138,7 +141,7 @@ public class Test {
         
         System.out.println("Valid title search:");
         try {
-            List<? extends Displayable> list4 = state.search("lord rings sopranos");
+            List<? extends Displayable> list4 = state.search("the lord RINGS sopranos");
 
             Set<String> searchRes = new HashSet<>();
             searchRes.add("The Sopranos");
@@ -148,7 +151,6 @@ public class Test {
             allTests = temp && allTests; 
             System.out.println("Correct size of result list: " + temp);
 
-            //Expecting no media
             for (int i = 0; i < searchRes.size(); i++) {
                 temp = searchRes.contains(list4.get(i).getTitle()); 
                 allTests = temp && allTests; 
