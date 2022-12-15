@@ -266,24 +266,6 @@ public class State implements StateInterface {
         }
     }
 
-    public void addWatched(int movieID) {
-        try {
-            users.get(curUserID).addWHistory(movieID);
-        } catch (IndexOutOfBoundsException e) {
-
-            System.out.println("Tried to add watched for an invalid current user: " + curUserID);
-        }
-    }
-
-    public void addWatched(int movieID, int userID) {
-        try {
-            users.get(userID).addWHistory(movieID);
-        } catch (IndexOutOfBoundsException e) {
-
-            System.out.println("Tried to add watched for an invalid user: " + userID);
-        }
-    }
-
     @Override
     protected void finalize() throws Throwable 
     {
@@ -295,13 +277,7 @@ public class State implements StateInterface {
         List<String> output = new ArrayList<>(); 
         for (User user : users) {
             String line = user.getName() + "; " + user.getAge() + "; " + user.getGender() + "; ";
-            Set<Integer> watchHistory = user.getWatchHistory();
             int i = 0; 
-            for (Integer watchedID : watchHistory) {
-                line += watchedID + (i + 1 == watchHistory.size() ? "" : ", ");
-                i++; 
-            }
-            line += "; "; 
             i = 0; 
             Set<Integer> favorites = user.getFavoriteList();
             for (Integer fID : favorites) {
@@ -371,18 +347,11 @@ public class State implements StateInterface {
             s = s.trim(); 
             String[] fields = s.split(";"); 
 
-            if(fields.length != 5) { System.out.println("Invalid user-string: " + s); continue; }
+            if(fields.length != 4) { System.out.println("Invalid user-string: " + s); continue; }
 
             users.add(new User(fields[0], Integer.parseInt(fields[1].trim()), fields[2].trim()));
 
-            String[] watched = fields[3].split(","); 
-            if(watched.length > 1) { // split just returns the same string if no matches, and its concievable that a user has no watched or favorites
-                for(String w : watched) {
-                    users.get(users.size() - 1).addWHistory(Integer.parseInt(w.trim()));
-                }
-            }
-
-            String[] favorites = fields[4].split(","); 
+            String[] favorites = fields[3].split(","); 
             if(favorites.length > 1) {
                 for(String favorite : favorites) {
                     users.get(users.size() - 1).addFavorite(Integer.parseInt(favorite.trim()));

@@ -101,7 +101,7 @@ public class Series extends Media{
         });
 
         watchButton.addActionListener(e -> {
-            state.addWatched(id);
+
         });
         
         return informationPanel;

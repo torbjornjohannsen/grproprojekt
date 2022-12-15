@@ -150,6 +150,7 @@ public class Test {
 
             //Expecting no media
             for (int i = 0; i < searchRes.size(); i++) {
+                System.out.println(searchRes.get(i) + " " + list4.get(i).getTitle());
                 temp = searchRes.get(i).equals(list4.get(i).getTitle()); 
                 allTests = temp && allTests; 
                 System.out.println("Title match: " + temp);

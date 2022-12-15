@@ -96,7 +96,7 @@ public class Movie extends Media{
         });
 
         watchButton.addActionListener(e -> {
-            state.addWatched(id);
+
         });
 
         return informationPanel;

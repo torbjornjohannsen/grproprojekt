@@ -22,8 +22,6 @@ public interface StateInterface {
     public void removeFavorite(int movieID, int usrID);
     public Boolean isFavorite(int movieID); 
     public Boolean isFavorite(int movieID, int usrID);
-    public void addWatched(int movieID); 
-    public void addWatched(int movieID, int userID);
     public void writeUsers(); 
     public Set<String> getGenres(); 
     public UserInterface getUser();
