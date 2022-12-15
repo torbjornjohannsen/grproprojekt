@@ -28,7 +28,7 @@ public class GUI {
         state.init();
         frame = makeMainFrame();
         makeView(state.getDisplayables(), state);
-
+        
         //Terminates program when exited
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -78,6 +78,7 @@ public class GUI {
                 contentPanel.removeAll(); 
                 JLabel noneFoundLabel = new JLabel("No matches found for your search query: \"" + searchBar.getText() + "\"");
                 contentPanel.add(noneFoundLabel); 
+                frame.repaint();
                 frame.validate(); 
             } else {
                 makeView(results, state);
@@ -128,6 +129,7 @@ public class GUI {
             contentPanel.setLayout(new GridLayout(elementsInRow, elementsInCol));
         }
 
+        frame.repaint();
         frame.validate(); 
     }
 
@@ -151,7 +153,9 @@ public class GUI {
             userFavoritesPanel.add(favorite.display(state));
         }
         contentPanel.add(userFavoritesPanel);
-
+        
+        frame.repaint();
         frame.validate();
+        
     }
 }
