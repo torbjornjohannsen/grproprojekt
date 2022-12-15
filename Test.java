@@ -185,7 +185,7 @@ public class Test {
         state.addFavorite(5);
         state.addFavorite(69, testUsrID);
 
-        List<Integer> favList = new ArrayList<>(testUser.getFavoriteList()); 
+        Set<Integer> favList = testUser.getFavoriteList(); 
 
         List<Integer> favTList = new ArrayList<>(); 
         favTList.add(5); 
@@ -196,7 +196,7 @@ public class Test {
         System.out.println("favoriteList size: " + temp);
 
         for(int i = 0; i < favList.size(); i++) {
-            temp = favList.get(i) == favTList.get(i); 
+            temp = favList.contains(favTList.get(i));
             result = result && temp; 
             System.out.println("Favorites: " + i + " " + temp);
         }
