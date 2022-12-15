@@ -141,8 +141,8 @@ public class Test {
             List<? extends Displayable> list4 = state.search("lord rings sopranos");
 
             List<String> searchRes = new ArrayList<>();
-            searchRes.add("Lord Of The Rings - The Return Of The King"); 
-            searchRes.add("The Sopranos"); 
+            searchRes.add("The Sopranos");
+            searchRes.add("Lord Of The Rings - The Return Of The King");  
 
             temp = list4.size() == searchRes.size(); 
             allTests = temp && allTests; 
@@ -150,7 +150,6 @@ public class Test {
 
             //Expecting no media
             for (int i = 0; i < searchRes.size(); i++) {
-                System.out.println(searchRes.get(i) + " " + list4.get(i).getTitle());
                 temp = searchRes.get(i).equals(list4.get(i).getTitle()); 
                 allTests = temp && allTests; 
                 System.out.println("Title match: " + temp);
